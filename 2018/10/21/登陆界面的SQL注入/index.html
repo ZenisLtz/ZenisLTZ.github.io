@@ -19,14 +19,14 @@
   
   <title>登陆界面的SQL注入 | ZenisLTZ&#39;s Blog</title>
   <meta name="description" content="登陆界面的SQL注入首先登陆的sql通常分为两种类型 1234567(1)先匹配username(注册时也类似这种方法验重)$query = mysql_query(&amp;quot;SELECT * FROM interest WHERE uname = &amp;apos;&amp;#123;$_POST[&amp;apos;uname&amp;apos;]&amp;#125;&amp;quot;);$key = mysql_fetch_arra">
-<meta name="keywords" content="mysql">
+<meta name="keywords" content="sqli">
 <meta property="og:type" content="article">
 <meta property="og:title" content="登陆界面的SQL注入">
 <meta property="og:url" content="http://ZenisLTZ.github.io/2018/10/21/登陆界面的SQL注入/index.html">
 <meta property="og:site_name" content="ZenisLTZ">
 <meta property="og:description" content="登陆界面的SQL注入首先登陆的sql通常分为两种类型 1234567(1)先匹配username(注册时也类似这种方法验重)$query = mysql_query(&amp;quot;SELECT * FROM interest WHERE uname = &amp;apos;&amp;#123;$_POST[&amp;apos;uname&amp;apos;]&amp;#125;&amp;quot;);$key = mysql_fetch_arra">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-01T12:38:34.157Z">
+<meta property="og:updated_time" content="2018-11-03T18:10:32.013Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="登陆界面的SQL注入">
 <meta name="twitter:description" content="登陆界面的SQL注入首先登陆的sql通常分为两种类型 1234567(1)先匹配username(注册时也类似这种方法验重)$query = mysql_query(&amp;quot;SELECT * FROM interest WHERE uname = &amp;apos;&amp;#123;$_POST[&amp;apos;uname&amp;apos;]&amp;#125;&amp;quot;);$key = mysql_fetch_arra">
@@ -214,7 +214,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli/">sqli</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -224,7 +224,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/python/" style="font-size: 13px;">python</a>
+      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/php/" style="font-size: 13.5px;">php</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/sqli/" style="font-size: 14px;">sqli</a>
     </div>
   </div>
 
@@ -233,7 +233,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -245,6 +245,36 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/09/PHP tricks/" class="title">��½�����SQLע��</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-08T19:25:28.756Z" itemprop="datePublished">2018-12-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/09/Deserialize/" class="title">��½�����SQLע��</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-08T19:24:48.964Z" itemprop="datePublished">2018-12-09</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -290,36 +320,6 @@
             </div>
           </li>
           
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2018/10/10/PySandox/" class="title">Python沙箱</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-10-10T15:12:55.028Z" itemprop="datePublished">2018-10-10</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2018/10/09/PhpCodeExcution/" class="title">PHP Code Excution Notes</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-10-09T12:02:04.797Z" itemprop="datePublished">2018-10-09</time>
-              </p>
-            </div>
-          </li>
-          
       </ul>
     </div>
   </div>
@@ -356,7 +356,7 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/mysql/">mysql</a>
+	<a class="article-tag-link" href="/tags/sqli/">sqli</a>
   </span>
 
 

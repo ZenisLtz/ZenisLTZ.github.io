@@ -19,14 +19,14 @@
   
   <title>宽字节注入 | ZenisLTZ&#39;s Blog</title>
   <meta name="description" content="WideByesInjectionBasicUTF-8UTF-8第一字节的取值范围是：00-7F、C2-F4 Mysql的utf8其实是阉割版utf-8编码，Mysql中的utf8字符集最长只支持三个字节,所以F0-F7也会无法被识别12三字节时, 首字节范围是[E0-EF][80-BF][80-BF]四字节时, 首字节范围是[F0-F7][80-BF][80-BF][80-BF] utf8mb4">
-<meta name="keywords" content="mysql">
+<meta name="keywords" content="sqli">
 <meta property="og:type" content="article">
 <meta property="og:title" content="宽字节注入">
 <meta property="og:url" content="http://ZenisLTZ.github.io/2018/11/02/WideBytesInj/index.html">
 <meta property="og:site_name" content="ZenisLTZ">
 <meta property="og:description" content="WideByesInjectionBasicUTF-8UTF-8第一字节的取值范围是：00-7F、C2-F4 Mysql的utf8其实是阉割版utf-8编码，Mysql中的utf8字符集最长只支持三个字节,所以F0-F7也会无法被识别12三字节时, 首字节范围是[E0-EF][80-BF][80-BF]四字节时, 首字节范围是[F0-F7][80-BF][80-BF][80-BF] utf8mb4">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-11-01T18:41:03.899Z">
+<meta property="og:updated_time" content="2018-11-15T18:06:35.120Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="宽字节注入">
 <meta name="twitter:description" content="WideByesInjectionBasicUTF-8UTF-8第一字节的取值范围是：00-7F、C2-F4 Mysql的utf8其实是阉割版utf-8编码，Mysql中的utf8字符集最长只支持三个字节,所以F0-F7也会无法被识别12三字节时, 首字节范围是[E0-EF][80-BF][80-BF]四字节时, 首字节范围是[F0-F7][80-BF][80-BF][80-BF] utf8mb4">
@@ -214,7 +214,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mysql/">mysql</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli/">sqli</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -224,7 +224,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/mysql/" style="font-size: 14px;">mysql</a> <a href="/tags/python/" style="font-size: 13px;">python</a>
+      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/php/" style="font-size: 13.5px;">php</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/sqli/" style="font-size: 14px;">sqli</a>
     </div>
   </div>
 
@@ -233,7 +233,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -245,6 +245,36 @@
     <div class="widget-body">
       <ul class="recent-post-list list-unstyled no-thumbnail">
         
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/09/PHP tricks/" class="title">��½�����SQLע��</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-08T19:25:28.756Z" itemprop="datePublished">2018-12-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/09/Deserialize/" class="title">��½�����SQLע��</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-08T19:24:48.964Z" itemprop="datePublished">2018-12-09</time>
+              </p>
+            </div>
+          </li>
+          
           <li>
             
             <div class="item-inner">
@@ -290,36 +320,6 @@
             </div>
           </li>
           
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2018/10/10/PySandox/" class="title">Python沙箱</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-10-10T15:12:55.028Z" itemprop="datePublished">2018-10-10</time>
-              </p>
-            </div>
-          </li>
-          
-          <li>
-            
-            <div class="item-inner">
-              <p class="item-category">
-                
-              </p>
-              <p class="item-title">
-                <a href="/2018/10/09/PhpCodeExcution/" class="title">PHP Code Excution Notes</a>
-              </p>
-              <p class="item-date">
-                <time datetime="2018-10-09T12:02:04.797Z" itemprop="datePublished">2018-10-09</time>
-              </p>
-            </div>
-          </li>
-          
       </ul>
     </div>
   </div>
@@ -356,7 +356,7 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/mysql/">mysql</a>
+	<a class="article-tag-link" href="/tags/sqli/">sqli</a>
   </span>
 
 
@@ -407,9 +407,7 @@
 <p>还有就是数据库创建或更改的时候改了服务器端的编码</p>
 <h3 id="PDO-prepare预编译"><a href="#PDO-prepare预编译" class="headerlink" title="PDO prepare预编译"></a>PDO prepare预编译</h3><p><a href="https://ilia.ws/archives/103-mysql_real_escape_string-versus-Prepared-Statements.html" target="_blank" rel="noopener">https://ilia.ws/archives/103-mysql_real_escape_string-versus-Prepared-Statements.html</a><br>PHP&lt;5.3.6时,还是存在WideByteInj的,本地模拟prepare后,再把完整的语句发送到mysql服务器<br>应该用ATTR_EMULATE_PREPARES来禁用prepare本地模拟<br>$db-&gt;setAttribute(PDO::ATTR_EMULATE_PREPARES,false);</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$db=new PDO(&quot;mysql:host=localhost; dbname=demo&quot;, &quot;user&quot;, &quot;pass&quot;);</span><br><span class="line">$db-&gt;exec(&quot;set names gbk&quot;);      //实际上并未修改mysql服务器端</span><br><span class="line">$sql=&quot;select * from test where name = ? and password = ?&quot;;</span><br><span class="line">$pre=$db-&gt;prepare($sql);</span><br><span class="line">$res=$pre-&gt;execute(array($name,$pass));</span><br></pre></td></tr></table></figure>
-<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><h3 id="识别不出的字符被忽略"><a href="#识别不出的字符被忽略" class="headerlink" title="识别不出的字符被忽略"></a>识别不出的字符被忽略</h3><p>可以绕过php中的验证</p>
-<p>client: utf8 — server: latin1<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">admin === </span><br><span class="line">admin%c2  </span><br><span class="line">admin%e4</span><br><span class="line">admin%e4%bd</span><br></pre></td></tr></table></figure></p>
-<h3 id="服务器端解析为宽字符"><a href="#服务器端解析为宽字符" class="headerlink" title="服务器端解析为宽字符"></a>服务器端解析为宽字符</h3><p>和反斜杠一起解释成宽字节</p>
+<h2 id="Exploit"><a href="#Exploit" class="headerlink" title="Exploit"></a>Exploit</h2><h3 id="服务器端解析为宽字符"><a href="#服务器端解析为宽字符" class="headerlink" title="服务器端解析为宽字符"></a>服务器端解析为宽字符</h3><p>和反斜杠一起解释成宽字节</p>
 <p>绕过加上反斜杠的过滤addslashes等</p>
 <p>client: utf8 — server: gbk<br>!! 如果一个字符uft8无法解码，则会去转化为ascii(255位版),但python的decode不会自动这样</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">df5c</span><br><span class="line">gbk:	運		b&apos;\xdf\\&apos;.decode(&apos;gbk&apos;)  //这里的\\是python里转义表达</span><br><span class="line">ascii:	ß\		chr(0xdf)</span><br></pre></td></tr></table></figure>
@@ -481,6 +479,10 @@
   <div class="bar-inner">
   
   <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/12/09/Deserialize/" title="��½�����SQLע��"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
     
     
     <li class="next">
