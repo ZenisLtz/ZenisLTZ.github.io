@@ -19,14 +19,14 @@
   
   <title>PHP tricks | ZenisLTZ&#39;s Blog</title>
   <meta name="description" content="PHP tricks介绍一些PHP基础及CTF中的一些trick PHP弱类型PHP 松散类型比较表 &apos;&apos; 12345678&amp;apos;123&amp;apos; == 123&amp;apos;abc&amp;apos; == 0&amp;apos;123a&amp;apos; == 123&amp;apos;0x01&amp;apos; == 1&amp;apos;0e123456789&amp;apos; == &amp;apos;0e987654321&amp;apos;[f">
-<meta name="keywords" content="php">
+<meta name="keywords" content="PHP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PHP tricks">
 <meta property="og:url" content="http://ZenisLTZ.github.io/2018/12/09/PHP tricks/index.html">
 <meta property="og:site_name" content="ZenisLTZ">
 <meta property="og:description" content="PHP tricks介绍一些PHP基础及CTF中的一些trick PHP弱类型PHP 松散类型比较表 &apos;&apos; 12345678&amp;apos;123&amp;apos; == 123&amp;apos;abc&amp;apos; == 0&amp;apos;123a&amp;apos; == 123&amp;apos;0x01&amp;apos; == 1&amp;apos;0e123456789&amp;apos; == &amp;apos;0e987654321&amp;apos;[f">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-08T19:32:20.074Z">
+<meta property="og:updated_time" content="2018-12-22T15:25:43.045Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP tricks">
 <meta name="twitter:description" content="PHP tricks介绍一些PHP基础及CTF中的一些trick PHP弱类型PHP 松散类型比较表 &apos;&apos; 12345678&amp;apos;123&amp;apos; == 123&amp;apos;abc&amp;apos; == 0&amp;apos;123a&amp;apos; == 123&amp;apos;0x01&amp;apos; == 1&amp;apos;0e123456789&amp;apos; == &amp;apos;0e987654321&amp;apos;[f">
@@ -214,7 +214,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/php/">php</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli/">sqli</a><span class="tag-list-count">3</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sqli/">sqli</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -224,7 +224,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/PHP/" style="font-size: 13px;">PHP</a> <a href="/tags/php/" style="font-size: 13.5px;">php</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/sqli/" style="font-size: 14px;">sqli</a>
+      <a href="/tags/PHP/" style="font-size: 14px;">PHP</a> <a href="/tags/python/" style="font-size: 13px;">python</a> <a href="/tags/sqli/" style="font-size: 13.5px;">sqli</a>
     </div>
   </div>
 
@@ -233,7 +233,7 @@
   <div class="widget">
     <h3 class="widget-title">Archive</h3>
     <div class="widget-body">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -356,7 +356,7 @@
         
   <span class="article-tag">
     <i class="icon icon-tags"></i>
-	<a class="article-tag-link" href="/tags/php/">php</a>
+	<a class="article-tag-link" href="/tags/PHP/">PHP</a>
   </span>
 
 
@@ -395,15 +395,17 @@
 <p>同时 php 5.3.4- 中，$_GET中的参数获取时会被截断!</p>
 <h2 id="常见过滤函数"><a href="#常见过滤函数" class="headerlink" title="常见过滤函数"></a>常见过滤函数</h2><h3 id="addslashes"><a href="#addslashes" class="headerlink" title="addslashes()"></a>addslashes()</h3><pre><code>&apos; &quot; \ NUll 
 </code></pre><p>加上’\’处理</p>
-<h3 id="htmlspecialchars"><a href="#htmlspecialchars" class="headerlink" title="htmlspecialchars()"></a>htmlspecialchars()</h3> <figure class="highlight plain"><figcaption><span><  >  "```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">第二个参数存在 ，会过滤```   &apos;</span><br></pre></td></tr></table></figure>
+<h3 id="htmlspecialchars"><a href="#htmlspecialchars" class="headerlink" title="htmlspecialchars()"></a>htmlspecialchars()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp; &lt;  &gt;  &quot;</span><br></pre></td></tr></table></figure>
+<p>第二个参数 ENT_QUOTES 存在 ，会过滤单引号</p>
 <ul>
-<li><p>不过滤 <figure class="highlight plain"><figcaption><span>反斜杠</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### ```mysql_[real_]escape_string</span><br></pre></td></tr></table></figure></p>
-<p>  如下字符受影响【\x00】【\n】【\r】【\】【’】【”】【\x1a】<br>  mysql_real_escape_string(string,$con)</p>
-<p>  mysql_real_escape is much safer than using addslashes</p>
-<h3 id="strip-tags-string-allow"><a href="#strip-tags-string-allow" class="headerlink" title="strip_tags(string[,allow])"></a>strip_tags(string[,allow])</h3><p>  注释总会被去掉</p>
-</li>
+<li>不过滤 <code>\</code> 反斜杠</li>
 </ul>
-<h2 id="危险函数"><a href="#危险函数" class="headerlink" title="危险函数"></a>危险函数</h2><p>下面的函数都有trick，大部分是出过题目的，例举了几个</p>
+<h3 id="mysql-real-escape-string"><a href="#mysql-real-escape-string" class="headerlink" title="mysql_[real_]escape_string"></a><code>mysql_[real_]escape_string</code></h3><pre><code>如下字符受影响【\x00】【\n】【\r】【\】【&apos;】【&quot;】【\x1a】
+mysql_real_escape_string(string,$con)
+
+mysql_real_escape is much safer than using addslashes
+</code></pre><h3 id="strip-tags-string-allow"><a href="#strip-tags-string-allow" class="headerlink" title="strip_tags(string[,allow])"></a>strip_tags(string[,allow])</h3><pre><code>注释总会被去掉
+</code></pre><h2 id="危险函数"><a href="#危险函数" class="headerlink" title="危险函数"></a>危险函数</h2><p>下面的函数都有trick，大部分是出过题目的，例举了几个</p>
 <h3 id="部分函数传入数组返回NULL"><a href="#部分函数传入数组返回NULL" class="headerlink" title="部分函数传入数组返回NULL"></a>部分函数传入数组返回NULL</h3><ul>
 <li>substr()</li>
 <li>md5()</li>
