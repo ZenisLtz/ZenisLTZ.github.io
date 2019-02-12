@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="ZenisLTZ">
 <meta property="og:description" content="PHP Deserialization1.PHP Serialization Basic123456789101112a - arrayb - booleand - doublei - integero - common objectr - references - stringC - custom objectO - classN - nullR - pointer referenceU - u">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-02-12T14:50:13.560Z">
+<meta property="og:updated_time" content="2019-02-12T15:37:36.108Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="PHP Deserialization">
 <meta name="twitter:description" content="PHP Deserialization1.PHP Serialization Basic123456789101112a - arrayb - booleand - doublei - integero - common objectr - references - stringC - custom objectO - classN - nullR - pointer referenceU - u">
@@ -417,7 +417,26 @@
 </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">	$a = new SoapClient(null, array(&apos;location&apos; =&gt; &quot;http://127.0.0.1:1234&quot;,&apos;uri&apos; =&gt; &quot;123&quot;));</span><br><span class="line">	$a-&gt;a();</span><br><span class="line"></span><br><span class="line">POST / HTTP/1.1</span><br><span class="line">Host: 127.0.0.1:1234</span><br><span class="line">Connection: Keep-Alive</span><br><span class="line">User-Agent: PHP-SOAP/7.2.12</span><br><span class="line">Content-Type: text/xml; charset=utf-8</span><br><span class="line">SOAPAction: &quot;123#a&quot;</span><br></pre></td></tr></table></figure>
-<h3 id="2-5-PHP-Session反序列化"><a href="#2-5-PHP-Session反序列化" class="headerlink" title="2.5 PHP Session反序列化"></a>2.5 PHP Session反序列化</h3><p>见PHP Session Security文章</p>
+<h3 id="2-5-PHP-Session反序列化"><a href="#2-5-PHP-Session反序列化" class="headerlink" title="2.5 PHP Session反序列化"></a>2.5 PHP Session反序列化</h3><p>配置：session.serialize_handler = [php]  |  php_serialize</p>
+<ul>
+<li><p>用默认的 php 存储时，会以<code>|</code>作为 key 和 value 的分隔符</p>
+</li>
+<li><p>采用php_serialize 的话，会直接将 session 存储为为序列化的数组</p>
+</li>
+</ul>
+<p>如果 serialize_handler 在写入和取出时不一样，则有可能会产生漏洞，以 php_serialize 方式存储如下的session变量</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">session_start(<span class="keyword">array</span>(<span class="string">'serialize_handler'</span> =&gt; <span class="string">'php_serialize'</span>));</span><br><span class="line">$_SESSION[<span class="string">'vin'</span>] = <span class="string">'|O:7:"MyClass":0:&#123;&#125;'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 最后 session 文件中存储的内容就会是是</span></span><br><span class="line">a:<span class="number">1</span>:&#123;s:<span class="number">3</span>:<span class="string">"vin"</span>;s:<span class="number">19</span>:<span class="string">"|O:7:"</span>MyClass<span class="string">":0:&#123;&#125;</span></span><br></pre></td></tr></table></figure>
+<p>但是我们在进行读取的时候，如果选择的是php，那么最后读取的内容是:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">session_start(<span class="keyword">array</span>(<span class="string">'serialize_handler'</span> =&gt; <span class="string">'php'</span>));</span><br><span class="line">var_dump($_SESSION);</span><br><span class="line"></span><br><span class="line"><span class="keyword">array</span>(<span class="number">1</span>) &#123; [<span class="string">"a:1:&#123;s:3:"</span>vin<span class="string">";s:19:"</span><span class="string">"]=&gt; object(__PHP_Incomplete_Class)#1 (1) &#123; ["</span>__PHP_Incomplete_Class_Name<span class="string">"]=&gt; string(7) "</span>MyClass<span class="string">" &#125; &#125;</span></span><br></pre></td></tr></table></figure>
+<p>可见此时，文件中的<code>|</code>符号被当成了在php默认解析下的区分 session 的key和value的分隔符，那么</p>
+<ul>
+<li><p><a href="https://blog.csdn.net/qingchenldl/article/details/80335274" target="_blank" rel="noopener">SK CTF  easy web</a></p>
+<p>先计算 str_shuffle 函数的返回值，构造 SKCTF 类到 session 里，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">O:5:&quot;SKCTF&quot;:1:&#123;s:7:&quot;content&quot;;s:20:&quot;&lt;?php eval[&apos;vin&apos;];?&gt;&quot;;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HCTF2018 Bestphp</p>
+</li>
+</ul>
 <h3 id="2-6-phar文件反序列化"><a href="#2-6-phar文件反序列化" class="headerlink" title="2.6 phar文件反序列化"></a>2.6 phar文件反序列化</h3><p>这个漏洞的出现改变了反序列化漏洞传统的利用方式，不需要unserialize(),只需要uri访问phar文件即可，极大的增大了攻击面（什么时候像Orange翻翻PHP源码肯定大有裨益）</p>
 <h4 id="2-6-1-利用条件"><a href="#2-6-1-利用条件" class="headerlink" title="2.6.1 利用条件"></a>2.6.1 利用条件</h4><ol>
 <li>phar文件要能够上传到服务器端。</li>
